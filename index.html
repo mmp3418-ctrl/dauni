@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0A0A0A">
+    <title>NEXT SEASON | لوحة التحكم</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-red: #E10600;
+            --primary-red-hover: #B80000;
+            --black: #0A0A0A;
+            --surface-main: #FFFFFF;
+            --surface-soft: #F7F7F7;
+            --surface-card: #FFFFFF;
+            --heading-color: #0A0A0A;
+            --body-color: #4A4A4A;
+            --border-color: #E5E5E5;
+            --red-gradient: linear-gradient(135deg, #E10600, #B80000);
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
+            --shadow-lg: 0 12px 32px rgba(225,6,0,0.15);
+            --font: 'Cairo', sans-serif;
+            --font-display: 'Space Grotesk', sans-serif;
+            --radius: 16px;
+            --radius-sm: 10px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font); }
+        
+        body { 
+            background-color: var(--surface-soft); 
+            color: var(--body-color); 
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* =========================================
+           الهيكل الأساسي (Layout)
+           ========================================= */
+        #dashboard {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* الشريط الجانبي (Sidebar) */
+        .sidebar {
+            width: 280px;
+            background: var(--black);
+            color: #FFF;
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+            border-left: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .sidebar-header {
+            padding: 30px 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .sidebar-header h2 {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #FFF;
+        }
+
+        .sidebar-header h2 span { color: var(--primary-red); }
+        
+        .sidebar-header p {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.4);
+            margin-top: 4px;
+        }
+
+        .sidebar-nav {
+            padding: 20px 12px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 20px;
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .sidebar-nav a:hover {
+            background: rgba(255,255,255,0.05);
+            color: #FFF;
+        }
+
+        .sidebar-nav a.active {
+            background: var(--red-gradient);
+            color: #FFF;
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* المحتوى الرئيسي (Main Content) */
+        .main-content {
+            flex: 1;
+            margin-right: 280px;
+            padding: 40px;
+            transition: var(--transition);
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .top-bar h1 {
+            color: var(--heading-color);
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+        }
+
+        /* =========================================
+           البطاقات (Cards)
+           ========================================= */
+        .card {
+            background: var(--surface-card);
+            border-radius: var(--radius);
+            padding: 32px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            margin-bottom: 24px;
+            animation: slideUp 0.4s ease forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        @keyframes slideUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-header h3 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--heading-color);
+        }
+
+        /* =========================================
+           النماذج (Forms)
+           ========================================= */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--heading-color);
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            font-family: inherit;
+            color: var(--heading-color);
+            background: var(--surface-soft);
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-red);
+            background: #FFF;
+            box-shadow: 0 0 0 4px rgba(225,6,0,0.1);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 180px;
+            line-height: 1.6;
+        }
+
+        /* =========================================
+           رفع الصور (Image Upload)
+           ========================================= */
+        .upload-area {
+            border: 2px dashed var(--border-color);
+            border-radius: var(--radius);
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            background: var(--surface-soft);
+            position: relative;
+        }
+
+        .upload-area:hover, .upload-area.dragover {
+            border-color: var(--primary-red);
+            background: rgba(225,6,0,0.02);
+        }
+
+        .upload-area input[type="file"] {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .upload-icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .upload-text {
+            font-weight: 700;
+            color: var(--heading-color);
+            margin-bottom: 4px;
+        }
+
+        .upload-subtext {
+            font-size: 0.85rem;
+            color: var(--muted-color);
+        }
+
+        /* معاينة الصور */
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .preview-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            border: 2px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            animation: popIn 0.3s ease;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .preview-remove {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: rgba(10,10,10,0.8);
+            color: #FFF;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+            transition: var(--transition);
+        }
+
+        .preview-remove:hover {
+            background: var(--primary-red);
+            transform: scale(1.1);
+        }
+
+        /* =========================================
+           الأزرار (Buttons)
+           ========================================= */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            font-weight: 800;
+            font-size: 1rem;
+            font-family: inherit;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            outline: none;
+        }
+
+        .btn-primary {
+            background: var(--red-gradient);
+            color: #FFF;
+            box-shadow: var(--shadow-lg);
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 40px rgba(225,6,0,0.3);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* =========================================
+           الجدول (Table)
+           ========================================= */
+        .table-responsive {
+            overflow-x: auto;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            white-space: nowrap;
+        }
+
+        th {
+            background: var(--surface-soft);
+            padding: 16px;
+            text-align: right;
+            font-weight: 800;
+            font-size: 0.85rem;
+            color: var(--heading-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
+            font-size: 0.9rem;
+        }
+
+        tr:last-child td { border-bottom: none; }
+
+        tr:hover td { background: rgba(0,0,0,0.01); }
+
+        .table-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid var(--border-color);
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+            font-size: 1.1rem;
+        }
+
+        .btn-edit { background: #E0F2FE; color: #0284C7; }
+        .btn-edit:hover { background: #0284C7; color: #FFF; }
+
+        .btn-delete { background: #FEE2E2; color: #DC2626; }
+        .btn-delete:hover { background: #DC2626; color: #FFF; }
+
+        /* =========================================
+           الإشعارات (Toast)
+           ========================================= */
+        #toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--black);
+            color: #FFF;
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-weight: 700;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        #toast.error { background: #DC2626; }
+        #toast.success { background: #10B981; }
+
+        /* =========================================
+           التجاوب مع الهواتف (Responsive)
+           ========================================= */
+        .mobile-header {
+            display: none;
+            background: var(--black);
+            color: #FFF;
+            padding: 16px 20px;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+        }
+
+        .mobile-header h2 { font-family: var(--font-display); font-size: 1.2rem; }
+        .mobile-header span { color: var(--primary-red); }
+
+        .mobile-toggle {
+            background: transparent;
+            border: none;
+            color: #FFF;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        @media (max-width: 900px) {
+            .mobile-header { display: flex; }
+            
+            .sidebar {
+                transform: translateX(100%);
+                width: 100%;
+                max-width: 300px;
+                box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-right: 0;
+                padding: 20px 16px;
+            }
+
+            .top-bar h1 {
+                font-size: 1.4rem;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            /* جعل الجدول يعمل كبطاقات على الهاتف */
+            .table-responsive {
+                border: none;
+                overflow: visible;
+            }
+
+            table, thead, tbody, th, td, tr { 
+                display: block; 
+            }
+
+            thead tr { 
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+
+            tr {
+                background: var(--surface-card);
+                border: 1px solid var(--border-color);
+                border-radius: var(--radius-sm);
+                margin-bottom: 16px;
+                padding: 16px;
+                box-shadow: var(--shadow-sm);
+            }
+
+            td { 
+                border: none;
+                position: relative;
+                padding: 8px 0;
+                padding-right: 50%;
+                text-align: right;
+                white-space: normal;
+            }
+
+            td:before { 
+                position: absolute;
+                top: 8px;
+                right: 0;
+                width: 45%; 
+                padding-left: 10px; 
+                white-space: nowrap;
+                font-weight: 700;
+                color: var(--heading-color);
+                content: attr(data-label);
+            }
+
+            /* إخفاء تسمية الصورة لأنها واضحة */
+            td:first-child { padding-right: 0; text-align: center; padding-bottom: 16px; }
+            td:first-child:before { display: none; }
+            
+            .table-img {
+                width: 100%;
+                height: 160px;
+                border-radius: var(--radius-sm);
+            }
+
+            .action-btns {
+                justify-content: flex-end;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- هيدر الهاتف -->
+    <div class="mobile-header">
+        <h2>NEXT <span>SEASON</span></h2>
+        <button class="mobile-toggle" onclick="toggleSidebar()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+    </div>
+
+    <div id="dashboard">
+        <!-- القائمة الجانبية -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>NEXT <span>SEASON</span></h2>
+                <p>لوحة التحكم الإدارية</p>
+            </div>
+            <div class="sidebar-nav">
+                <a class="active" onclick="switchTab('add-article', this)">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    إضافة مقال
+                </a>
+                <a onclick="switchTab('manage-articles', this)">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                    إدارة المقالات
+                </a>
+                <a href="index.html" target="_blank" style="margin-top: auto; border: 1px solid rgba(255,255,255,0.1);">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                    عرض الموقع
+                </a>
+            </div>
+        </div>
+
+        <!-- المحتوى الرئيسي -->
+        <div class="main-content">
+            <div class="top-bar">
+                <h1 id="pageTitle">إضافة مقال جديد</h1>
+            </div>
+
+            <!-- قسم إضافة مقال -->
+            <div id="tab-add-article" class="tab-content active">
+                <div class="card">
+                    <form id="articleForm" onsubmit="saveArticle(event)">
+                        <input type="hidden" id="articleId">
+                        
+                        <div class="form-group">
+                            <label>عنوان المقال</label>
+                            <input type="text" id="title" class="form-control" required placeholder="اكتب عنواناً جذاباً...">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>القسم</label>
+                            <select id="category_id" class="form-control" required>
+                                <option value="1">أخبار</option>
+                                <option value="2">مجتمع</option>
+                                <option value="3">ثقافة وفنون</option>
+                                <option value="4">شخصيات ولقاءات</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>صور المقال (يمكن اختيار أكثر من صورة)</label>
+                            <div class="upload-area">
+                                <input type="file" id="fileInput" multiple accept="image/*" onchange="handleFileSelect(event)">
+                                <span class="upload-icon">📸</span>
+                                <div class="upload-text">اضغط هنا أو اسحب الصور</div>
+                                <div class="upload-subtext">يدعم JPG, PNG, WEBP</div>
+                            </div>
+                            <div class="preview-grid" id="imagePreviewContainer"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>محتوى المقال</label>
+                            <textarea id="content" class="form-control" required placeholder="اكتب محتوى المقال هنا..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" id="submitBtn">
+                            نشر المقال
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- قسم إدارة المقالات -->
+            <div id="tab-manage-articles" class="tab-content" style="display:none;">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>جميع المقالات</h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>الصورة</th>
+                                    <th>العنوان</th>
+                                    <th>القسم</th>
+                                    <th>التاريخ</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="articlesTableBody">
+                                <!-- سيتم تحميل المقالات هنا -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast">تمت العملية بنجاح</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://mxwftmpidpsbowtuxvyl.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_x83pQypR_ZHiN4hMXx8ySQ_Te1pZF87';
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        let selectedFiles = [];
+        let existingImageUrls = [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadArticles();
+            initDragAndDrop();
+        });
+
+        // ==========================================
+        // التنقل بين التبويبات والقائمة الجانبية
+        // ==========================================
+        function switchTab(tabId, element) {
+            document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+            document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
+            
+            document.getElementById('tab-' + tabId).style.display = 'block';
+            if(element) element.classList.add('active');
+            
+            if (tabId === 'add-article') {
+                document.getElementById('pageTitle').innerText = 'إضافة مقال جديد';
+                resetForm();
+            } else if (tabId === 'manage-articles') {
+                document.getElementById('pageTitle').innerText = 'إدارة المقالات';
+                loadArticles();
+            }
+
+            // إغلاق القائمة الجانبية في الهاتف بعد الاختيار
+            if (window.innerWidth <= 900) {
+                document.getElementById('sidebar').classList.remove('open');
+            }
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        // ==========================================
+        // رفع الصور والمعاينة
+        // ==========================================
+        function handleFileSelect(event) {
+            const files = Array.from(event.target.files);
+            files.forEach(file => {
+                if(file.type.startsWith('image/')) {
+                    selectedFiles.push(file);
+                    renderPreview(file);
+                }
+            });
+            event.target.value = '';
+        }
+
+        function initDragAndDrop() {
+            const uploadArea = document.querySelector('.upload-area');
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaults, false);
+            });
+            function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.add('dragover'), false);
+            });
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.remove('dragover'), false);
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                const dt = e.dataTransfer;
+                const files = Array.from(dt.files);
+                files.forEach(file => {
+                    if(file.type.startsWith('image/')) {
+                        selectedFiles.push(file);
+                        renderPreview(file);
+                    }
+                });
+            }, false);
+        }
+
+        function renderPreview(file) {
+            const container = document.getElementById('imagePreviewContainer');
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const div = document.createElement('div');
+                div.className = 'preview-item';
+                div.innerHTML = `
+                    <img src="${e.target.result}" alt="preview">
+                    <button type="button" class="preview-remove" onclick="removeSelectedFile(this, '${file.name}')">×</button>
+                `;
+                container.appendChild(div);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removeSelectedFile(btn, fileName) {
+            btn.parentElement.remove();
+            selectedFiles = selectedFiles.filter(f => f.name !== fileName);
+        }
+
+        function removeExistingImage(btn, url) {
+            btn.parentElement.remove();
+            existingImageUrls = existingImageUrls.filter(u => u !== url);
+        }
+
+        // ==========================================
+        // عمليات قاعدة البيانات (CRUD)
+        // ==========================================
+        async function saveArticle(e) {
+            e.preventDefault();
+            const id = document.getElementById('articleId').value;
+            const btn = document.getElementById('submitBtn');
+            const originalText = btn.innerHTML;
+            
+            btn.innerHTML = 'جاري الرفع والحفظ...'; 
+            btn.disabled = true;
+
+            try {
+                let uploadedUrls = [];
+                for (const file of selectedFiles) {
+                    const fileExt = file.name.split('.').pop();
+                    const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
+                    
+                    const { data, error } = await supabaseClient.storage.from('images').upload(fileName, file);
+                    if (error) throw new Error('فشل رفع الصورة: ' + error.message);
+
+                    const { data: urlData } = supabaseClient.storage.from('images').getPublicUrl(fileName);
+                    uploadedUrls.push(urlData.publicUrl);
+                }
+
+                const finalImages = [...existingImageUrls, ...uploadedUrls];
+
+                const articleData = {
+                    title: document.getElementById('title').value,
+                    category_id: parseInt(document.getElementById('category_id').value),
+                    content: document.getElementById('content').value,
+                    images: finalImages,
+                    image_url: finalImages.length > 0 ? finalImages[0] : null 
+                };
+
+                let error;
+                if (id) {
+                    const res = await supabaseClient.from('articles').update(articleData).eq('id', id);
+                    error = res.error;
+                } else {
+                    const res = await supabaseClient.from('articles').insert([articleData]);
+                    error = res.error;
+                }
+
+                if (error) throw error;
+
+                showToast(id ? 'تم تعديل المقال بنجاح' : 'تم نشر المقال بنجاح', 'success');
+                resetForm();
+                document.querySelectorAll('.sidebar-nav a')[1].click(); 
+
+            } catch (err) {
+                showToast(err.message, 'error');
+            } finally {
+                btn.innerHTML = originalText; 
+                btn.disabled = false;
+            }
+        }
+
+        async function loadArticles() {
+            const tbody = document.getElementById('articlesTableBody');
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 40px;">جاري التحميل...</td></tr>';
+            
+            const { data, error } = await supabaseClient.from('articles').select('*').order('created_at', { ascending: false });
+            
+            if (error) {
+                tbody.innerHTML = `<tr><td colspan="5" style="color:red; text-align:center;">خطأ: ${error.message}</td></tr>`;
+                return;
+            }
+
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 40px;">لا توجد مقالات بعد.</td></tr>';
+                return;
+            }
+
+            const categories = { 1: 'أخبار', 2: 'مجتمع', 3: 'ثقافة وفنون', 4: 'شخصيات ولقاءات' };
+            const defaultImg = 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=100';
+
+            tbody.innerHTML = data.map(article => {
+                let displayImg = defaultImg;
+                if (article.images && article.images.length > 0) displayImg = article.images[0];
+                else if (article.image_url) displayImg = article.image_url;
+
+                return `
+                <tr>
+                    <td data-label="الصورة"><img src="${displayImg}" class="table-img" alt="img" onerror="this.src='${defaultImg}'"></td>
+                    <td data-label="العنوان" style="font-weight:700; color:var(--heading-color);">${article.title}</td>
+                    <td data-label="القسم">${categories[article.category_id] || 'غير محدد'}</td>
+                    <td data-label="التاريخ">${new Date(article.created_at).toLocaleDateString('ar-LY')}</td>
+                    <td data-label="الإجراءات">
+                        <div class="action-btns">
+                            <button class="btn-icon btn-edit" onclick="editArticle(${article.id})" title="تعديل">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                            </button>
+                            <button class="btn-icon btn-delete" onclick="deleteArticle(${article.id})" title="حذف">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `}).join('');
+        }
+
+        async function editArticle(id) {
+            const { data, error } = await supabaseClient.from('articles').select('*').eq('id', id).single();
+            if (error) return showToast('خطأ في جلب المقال', 'error');
+
+            document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+            document.getElementById('tab-add-article').style.display = 'block';
+            document.getElementById('pageTitle').innerText = 'تعديل المقال';
+
+            document.getElementById('articleId').value = data.id;
+            document.getElementById('title').value = data.title;
+            document.getElementById('category_id').value = data.category_id;
+            document.getElementById('content').value = data.content;
+            document.getElementById('submitBtn').innerHTML = 'حفظ التعديلات';
+
+            selectedFiles = [];
+            existingImageUrls = data.images || (data.image_url ? [data.image_url] : []);
+            
+            const container = document.getElementById('imagePreviewContainer');
+            container.innerHTML = '';
+            existingImageUrls.forEach(url => {
+                const div = document.createElement('div');
+                div.className = 'preview-item';
+                div.innerHTML = `
+                    <img src="${url}" alt="preview">
+                    <button type="button" class="preview-remove" onclick="removeExistingImage(this, '${url}')">×</button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        async function deleteArticle(id) {
+            if (!confirm('هل أنت متأكد من حذف هذا المقال نهائياً؟')) return;
+            
+            const { error } = await supabaseClient.from('articles').delete().eq('id', id);
+            if (error) {
+                showToast('خطأ: ' + error.message, 'error');
+            } else {
+                showToast('تم حذف المقال', 'success');
+                loadArticles();
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('articleForm').reset();
+            document.getElementById('articleId').value = '';
+            document.getElementById('imagePreviewContainer').innerHTML = '';
+            document.getElementById('submitBtn').innerHTML = 'نشر المقال';
+            selectedFiles = [];
+            existingImageUrls = [];
+        }
+
+        function showToast(msg, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.innerText = msg;
+            toast.className = 'show ' + type;
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>
