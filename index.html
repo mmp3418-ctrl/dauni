@@ -4,22 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#013878">
-    <title>UNI PLUS | لوحة التحكم</title>
+    <title>UNI PLUS | لوحة التحكم الشاملة</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            /* ألوان UNI PLUS الأصلية */
             --primary: #013878;
             --primary-dark: #002a5c;
             --primary-light: #0a4a96;
             --gold: #C9A227;
             --gold-light: #E8C766;
             --gold-dark: #a88520;
-
-            --black: #0A0A0A;
             --surface-main: #FFFFFF;
             --surface-soft: #F5F8FC;
             --surface-card: #FFFFFF;
@@ -41,35 +38,23 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font); }
-        
-        body { 
-            background-color: var(--surface-soft); 
-            color: var(--body-color); 
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
-        }
+        body { background: var(--surface-soft); color: var(--body-color); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 
-        #dashboard { display: flex; min-height: 100vh; position: relative; }
+        #dashboard { display: flex; min-height: 100vh; }
 
-        /* =========================================
-           Sidebar — أزرق ملكي مع تفاصيل ذهبية
-           ========================================= */
+        /* Sidebar */
         .sidebar {
             width: 280px;
             background: linear-gradient(180deg, #013878 0%, #002a5c 100%);
             color: #FFF;
             position: fixed;
-            top: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; right: 0; bottom: 0;
             z-index: 100;
             display: flex;
             flex-direction: column;
             transition: var(--transition);
             border-left: 1px solid rgba(255,255,255,0.05);
-            position: fixed;
         }
-
         .sidebar::before {
             content: '';
             position: absolute;
@@ -79,118 +64,60 @@
                 radial-gradient(circle at 0% 100%, rgba(201,162,39,0.08) 0%, transparent 50%);
             pointer-events: none;
         }
-
         .sidebar-header {
             padding: 30px 24px;
             border-bottom: 1px solid rgba(255,255,255,0.1);
-            position: relative;
-            z-index: 2;
+            position: relative; z-index: 2;
         }
-
-        .sidebar-header h2 {
-            font-family: var(--font-display);
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            color: #FFF;
-        }
-
+        .sidebar-header h2 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; letter-spacing: 1px; color: #FFF; }
         .sidebar-header h2 span { color: var(--gold-light); }
-        
-        .sidebar-header p {
-            font-size: 0.8rem;
-            color: rgba(255,255,255,0.5);
-            margin-top: 4px;
-            font-weight: 500;
-        }
+        .sidebar-header p { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 4px; font-weight: 500; }
 
         .sidebar-nav {
             padding: 20px 12px;
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            position: relative;
-            z-index: 2;
+            gap: 6px;
+            position: relative; z-index: 2;
+            overflow-y: auto;
         }
-
+        .sidebar-nav::-webkit-scrollbar { width: 4px; }
+        .sidebar-nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
         .sidebar-nav a {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 14px 20px;
+            display: flex; align-items: center; gap: 12px;
+            padding: 13px 18px;
             color: rgba(255,255,255,0.65);
             text-decoration: none;
             border-radius: var(--radius-sm);
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             transition: var(--transition);
             cursor: pointer;
         }
-
-        .sidebar-nav a:hover {
-            background: rgba(255,255,255,0.08);
-            color: #FFF;
-        }
-
-        .sidebar-nav a.active {
-            background: var(--gold-gradient);
-            color: var(--primary-dark);
-            box-shadow: var(--shadow-gold);
-            font-weight: 800;
-        }
-
+        .sidebar-nav a:hover { background: rgba(255,255,255,0.08); color: #FFF; }
+        .sidebar-nav a.active { background: var(--gold-gradient); color: var(--primary-dark); box-shadow: var(--shadow-gold); font-weight: 800; }
         .sidebar-nav a.active svg { stroke: var(--primary-dark); }
+        .sidebar-nav .divider { height: 1px; background: rgba(255,255,255,0.08); margin: 8px 10px; }
 
-        /* =========================================
-           Main Content
-           ========================================= */
-        .main-content {
-            flex: 1;
-            margin-right: 280px;
-            padding: 40px;
-            transition: var(--transition);
-        }
-
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 40px;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .top-bar h1 {
-            color: var(--heading-color);
-            font-size: 1.8rem;
-            font-weight: 900;
-            letter-spacing: -0.5px;
-        }
-
+        /* Main */
+        .main-content { flex: 1; margin-right: 280px; padding: 40px; transition: var(--transition); }
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; gap: 12px; flex-wrap: wrap; }
+        .top-bar h1 { color: var(--heading-color); font-size: 1.8rem; font-weight: 900; letter-spacing: -0.5px; }
         .top-bar .btn-view {
             padding: 10px 20px;
             background: var(--primary);
             color: #FFF;
             border-radius: var(--radius-sm);
             text-decoration: none;
-            font-weight: 700;
-            font-size: 0.88rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+            font-weight: 700; font-size: 0.88rem;
+            display: inline-flex; align-items: center; gap: 8px;
             transition: var(--transition);
             box-shadow: var(--shadow-md);
         }
-        .top-bar .btn-view:hover { 
-            background: var(--gold);
-            color: var(--primary);
-            transform: translateY(-2px);
-        }
+        .top-bar .btn-view:hover { background: var(--gold); color: var(--primary); transform: translateY(-2px); }
 
-        /* =========================================
-           Cards
-           ========================================= */
+        /* Cards */
         .card {
             background: var(--surface-card);
             border-radius: var(--radius);
@@ -198,44 +125,25 @@
             box-shadow: var(--shadow-sm);
             border: 1px solid var(--border-color);
             margin-bottom: 24px;
-            animation: slideUp 0.4s ease forwards;
             position: relative;
             overflow: hidden;
+            animation: slideUp 0.4s ease;
         }
-
         .card::before {
             content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            left: 0;
-            height: 4px;
+            position: absolute; top: 0; right: 0; left: 0; height: 4px;
             background: var(--gold-gradient);
         }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         .card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 24px;
-            padding-bottom: 16px;
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 24px; padding-bottom: 16px;
             border-bottom: 1px solid var(--border-color);
-            flex-wrap: wrap;
-            gap: 10px;
+            flex-wrap: wrap; gap: 10px;
         }
-
-        .card-header h3 {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--heading-color);
-        }
-
-        .card-header .count-badge {
+        .card-header h3 { font-size: 1.15rem; font-weight: 800; color: var(--heading-color); display: flex; align-items: center; gap: 8px; }
+        .count-badge {
             background: rgba(201,162,39,0.15);
             color: var(--gold-dark);
             padding: 4px 14px;
@@ -245,32 +153,17 @@
             border: 1px solid rgba(201,162,39,0.3);
         }
 
-        /* =========================================
-           Forms
-           ========================================= */
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 0;
-        }
+        /* Forms */
+        .form-grid { display: grid; grid-template-columns: 1fr; gap: 0; }
         @media (min-width: 700px) {
             .form-grid { grid-template-columns: 1fr 1fr; gap: 0 20px; }
             .form-group.full { grid-column: 1 / -1; }
         }
-
-        .form-group { margin-bottom: 24px; }
-
-        .form-group label {
-            display: block;
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--heading-color);
-            margin-bottom: 8px;
-        }
-
+        .form-group { margin-bottom: 22px; }
+        .form-group label { display: block; font-size: 0.88rem; font-weight: 700; color: var(--heading-color); margin-bottom: 8px; }
         .form-control {
             width: 100%;
-            padding: 14px 16px;
+            padding: 13px 16px;
             border: 2px solid var(--border-color);
             border-radius: var(--radius-sm);
             font-size: 0.95rem;
@@ -280,26 +173,13 @@
             transition: var(--transition);
             outline: none;
         }
-
         .form-control::placeholder { color: #9aabbd; }
-
-        .form-control:focus {
-            border-color: var(--primary);
-            background: #FFF;
-            box-shadow: 0 0 0 4px rgba(1,56,120,0.1);
-        }
-
-        textarea.form-control {
-            resize: vertical;
-            min-height: 120px;
-            line-height: 1.7;
-        }
+        .form-control:focus { border-color: var(--primary); background: #FFF; box-shadow: 0 0 0 4px rgba(1,56,120,0.1); }
+        textarea.form-control { resize: vertical; min-height: 100px; line-height: 1.7; }
 
         .checkbox-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 14px 16px;
+            display: flex; align-items: center; gap: 10px;
+            padding: 13px 16px;
             background: var(--surface-soft);
             border: 2px solid var(--border-color);
             border-radius: var(--radius-sm);
@@ -307,263 +187,144 @@
             transition: var(--transition);
         }
         .checkbox-row:hover { border-color: var(--gold); }
-        .checkbox-row input { 
-            width: 20px; height: 20px; 
-            accent-color: var(--primary); 
-            cursor: pointer; 
-        }
-        .checkbox-row label { margin: 0; cursor: pointer; font-weight: 700; color: var(--heading-color); }
+        .checkbox-row input { width: 20px; height: 20px; accent-color: var(--primary); cursor: pointer; }
+        .checkbox-row label { margin: 0; cursor: pointer; font-weight: 700; color: var(--heading-color); font-size: 0.9rem; }
 
-        /* =========================================
-           Image Upload
-           ========================================= */
+        /* Section Headers inside form */
+        .form-section-title {
+            grid-column: 1 / -1;
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--primary);
+            padding: 12px 0 8px;
+            border-bottom: 2px solid var(--gold);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Upload */
         .upload-area {
             border: 2px dashed var(--border-color);
             border-radius: var(--radius);
-            padding: 32px 20px;
+            padding: 28px 20px;
             text-align: center;
             cursor: pointer;
             transition: var(--transition);
             background: var(--surface-soft);
             position: relative;
         }
+        .upload-area:hover, .upload-area.dragover { border-color: var(--gold); background: rgba(201,162,39,0.04); }
+        .upload-area input[type="file"] { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+        .upload-icon { font-size: 2rem; margin-bottom: 8px; display: block; }
+        .upload-text { font-weight: 700; color: var(--heading-color); margin-bottom: 4px; }
+        .upload-subtext { font-size: 0.8rem; color: var(--muted-color); }
 
-        .upload-area:hover, .upload-area.dragover {
-            border-color: var(--gold);
-            background: rgba(201,162,39,0.04);
-        }
-
-        .upload-area input[type="file"] {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            cursor: pointer;
-        }
-
-        .upload-icon {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .upload-text {
-            font-weight: 700;
-            color: var(--heading-color);
-            margin-bottom: 4px;
-        }
-
-        .upload-subtext {
-            font-size: 0.82rem;
-            color: var(--muted-color);
-        }
-
-        /* =========================================
-           Image Preview
-           ========================================= */
-        .preview-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 12px;
-            margin-top: 16px;
-        }
-
+        .preview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 12px; margin-top: 14px; }
         .preview-item {
-            position: relative;
-            aspect-ratio: 1;
-            border-radius: var(--radius-sm);
-            overflow: hidden;
+            position: relative; aspect-ratio: 1;
+            border-radius: var(--radius-sm); overflow: hidden;
             border: 2px solid var(--border-color);
             box-shadow: var(--shadow-sm);
             animation: popIn 0.3s ease;
         }
-
-        @keyframes popIn {
-            from { transform: scale(0.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .preview-item img { width: 100%; height: 100%; object-fit: cover; }
-
         .preview-remove {
-            position: absolute;
-            top: 6px;
-            right: 6px;
-            background: rgba(1,56,120,0.85);
-            color: #FFF;
-            border: none;
-            border-radius: 50%;
-            width: 26px;
-            height: 26px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 1rem;
-            line-height: 1;
+            position: absolute; top: 6px; right: 6px;
+            background: rgba(1,56,120,0.85); color: #FFF;
+            border: none; border-radius: 50%;
+            width: 26px; height: 26px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 1rem; line-height: 1;
             transition: var(--transition);
         }
+        .preview-remove:hover { background: var(--gold); color: var(--primary); transform: scale(1.1); }
 
-        .preview-remove:hover {
-            background: var(--gold);
-            color: var(--primary);
-            transform: scale(1.1);
-        }
-
-        /* =========================================
-           Buttons
-           ========================================= */
+        /* Buttons */
         .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 14px 28px;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 13px 24px;
             border-radius: var(--radius-sm);
-            font-weight: 800;
-            font-size: 1rem;
+            font-weight: 800; font-size: 0.95rem;
             font-family: inherit;
             cursor: pointer;
             transition: var(--transition);
-            border: none;
-            outline: none;
+            border: none; outline: none;
         }
-
-        .btn-primary {
-            background: var(--blue-gradient);
-            color: #FFF;
-            box-shadow: var(--shadow-md);
-            width: 100%;
-        }
-
-        .btn-primary:hover { 
-            background: var(--gold-gradient);
-            color: var(--primary-dark);
-            transform: translateY(-2px); 
-            box-shadow: var(--shadow-gold);
-        }
-        .btn-primary:active { transform: translateY(0); }
+        .btn-primary { background: var(--blue-gradient); color: #FFF; box-shadow: var(--shadow-md); }
+        .btn-primary:hover { background: var(--gold-gradient); color: var(--primary-dark); transform: translateY(-2px); box-shadow: var(--shadow-gold); }
         .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+        .btn-secondary { background: var(--surface-soft); color: var(--heading-color); border: 2px solid var(--border-color); }
+        .btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
+        .btn-block { width: 100%; }
 
-        .btn-secondary {
-            background: var(--surface-soft);
-            color: var(--heading-color);
-            border: 2px solid var(--border-color);
-        }
-        .btn-secondary:hover { 
-            border-color: var(--primary); 
-            color: var(--primary); 
-        }
+        .form-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+        @media (max-width: 600px) { .form-actions { flex-direction: column; } .form-actions .btn { width: 100%; } }
 
-        .form-actions {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        @media (max-width: 600px) {
-            .form-actions { flex-direction: column; }
-            .form-actions .btn { width: 100%; }
-        }
-
-        /* =========================================
-           Table
-           ========================================= */
-        .table-responsive {
-            overflow-x: auto;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border-color);
-        }
-
+        /* Table */
+        .table-responsive { overflow-x: auto; border-radius: var(--radius-sm); border: 1px solid var(--border-color); }
         table { width: 100%; border-collapse: collapse; white-space: nowrap; }
-
         th {
-            background: var(--surface-soft);
-            padding: 16px;
-            text-align: right;
-            font-weight: 800;
-            font-size: 0.85rem;
-            color: var(--heading-color);
-            border-bottom: 2px solid var(--border-color);
+            background: var(--surface-soft); padding: 14px;
+            text-align: right; font-weight: 800; font-size: 0.83rem;
+            color: var(--heading-color); border-bottom: 2px solid var(--border-color);
         }
-
-        td {
-            padding: 16px;
-            border-bottom: 1px solid var(--border-color);
-            vertical-align: middle;
-            font-size: 0.9rem;
-            color: var(--body-color);
-        }
-
+        td { padding: 14px; border-bottom: 1px solid var(--border-color); vertical-align: middle; font-size: 0.88rem; color: var(--body-color); }
         tr:last-child td { border-bottom: none; }
         tr:hover td { background: rgba(1,56,120,0.02); }
+        .table-img { width: 54px; height: 54px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border-color); }
 
-        .table-img {
-            width: 60px;
-            height: 60px;
-            border-radius: 8px;
-            object-fit: cover;
-            border: 1px solid var(--border-color);
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 50px;
-            font-size: 0.72rem;
-            font-weight: 800;
-        }
+        .badge { display: inline-block; padding: 3px 10px; border-radius: 50px; font-size: 0.72rem; font-weight: 800; }
         .badge-active { background: #D1FAE5; color: #059669; }
         .badge-inactive { background: #FEE2E2; color: #DC2626; }
-        .badge-gold { 
-            background: rgba(201,162,39,0.15); 
-            color: var(--gold-dark); 
-            border: 1px solid rgba(201,162,39,0.3);
-        }
+        .badge-gold { background: rgba(201,162,39,0.15); color: var(--gold-dark); border: 1px solid rgba(201,162,39,0.3); }
+        .badge-blue { background: rgba(1,56,120,0.1); color: var(--primary); }
 
         .action-btns { display: flex; gap: 6px; }
-
         .btn-icon {
-            width: 36px;
-            height: 36px;
+            width: 34px; height: 34px;
             border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            border: none;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; border: none;
             transition: var(--transition);
         }
-
         .btn-edit { background: rgba(1,56,120,0.1); color: var(--primary); }
         .btn-edit:hover { background: var(--primary); color: #FFF; }
-
         .btn-delete { background: #FEE2E2; color: #DC2626; }
         .btn-delete:hover { background: #DC2626; color: #FFF; }
 
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--muted-color);
+        /* Social Icons */
+        .social-icon-preview {
+            width: 40px; height: 40px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            color: #FFF;
+            flex-shrink: 0;
         }
-        .empty-state .icon-big { font-size: 3rem; margin-bottom: 12px; }
-        .empty-state h4 { 
-            color: var(--heading-color); 
-            margin-bottom: 6px; 
-            font-size: 1.1rem; 
-        }
+        .si-facebook { background: #1877F2; }
+        .si-instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+        .si-twitter { background: #000; }
+        .si-tiktok { background: #000; }
+        .si-youtube { background: #FF0000; }
+        .si-snapchat { background: #FFFC00; color: #000 !important; }
+        .si-telegram { background: #0088CC; }
+        .si-linkedin { background: #0A66C2; }
+        .si-whatsapp { background: #25D366; }
+        .si-other { background: var(--primary); }
 
-        /* =========================================
-           Toast
-           ========================================= */
+        .empty-state { text-align: center; padding: 50px 20px; color: var(--muted-color); }
+        .empty-state .icon-big { font-size: 2.5rem; margin-bottom: 10px; }
+        .empty-state h4 { color: var(--heading-color); margin-bottom: 6px; font-size: 1.05rem; }
+
+        /* Toast */
         #toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
+            position: fixed; bottom: 30px; left: 50%;
             transform: translateX(-50%) translateY(100px);
             background: var(--primary);
             color: #FFF;
-            padding: 16px 32px;
+            padding: 14px 28px;
             border-radius: 50px;
             font-weight: 700;
             box-shadow: 0 20px 40px rgba(1,56,120,0.3);
@@ -571,120 +332,87 @@
             transition: var(--transition);
             z-index: 9999;
         }
-
         #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
         #toast.error { background: #DC2626; }
-        #toast.success { 
-            background: var(--gold-gradient); 
-            color: var(--primary-dark); 
-        }
+        #toast.success { background: var(--gold-gradient); color: var(--primary-dark); }
 
-        /* =========================================
-           Mobile
-           ========================================= */
+        /* Mobile */
         .mobile-header {
             display: none;
             background: var(--blue-gradient);
             color: #FFF;
             padding: 16px 20px;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 99;
+            align-items: center; justify-content: space-between;
+            position: sticky; top: 0; z-index: 99;
         }
-
         .mobile-header h2 { font-family: var(--font-display); font-size: 1.2rem; }
         .mobile-header span { color: var(--gold-light); }
-
-        .mobile-toggle {
-            background: transparent;
-            border: none;
-            color: #FFF;
-            cursor: pointer;
-            padding: 8px;
-        }
+        .mobile-toggle { background: transparent; border: none; color: #FFF; cursor: pointer; padding: 8px; }
 
         @media (max-width: 900px) {
             .mobile-header { display: flex; }
-            
-            .sidebar {
-                transform: translateX(100%);
-                width: 100%;
-                max-width: 300px;
-                box-shadow: -10px 0 30px rgba(1,56,120,0.4);
-            }
+            .sidebar { transform: translateX(100%); width: 100%; max-width: 300px; box-shadow: -10px 0 30px rgba(1,56,120,0.4); }
             .sidebar.open { transform: translateX(0); }
-
             .main-content { margin-right: 0; padding: 20px 16px; }
-            .top-bar h1 { font-size: 1.4rem; }
+            .top-bar h1 { font-size: 1.3rem; }
             .card { padding: 20px; }
 
             .table-responsive { border: none; overflow: visible; }
             table, thead, tbody, th, td, tr { display: block; }
             thead tr { position: absolute; top: -9999px; left: -9999px; }
-
             tr {
                 background: var(--surface-card);
                 border: 1px solid var(--border-color);
                 border-radius: var(--radius-sm);
-                margin-bottom: 16px;
-                padding: 16px;
+                margin-bottom: 14px;
+                padding: 14px;
                 box-shadow: var(--shadow-sm);
             }
-
-            td {
-                border: none;
-                position: relative;
-                padding: 8px 0;
-                padding-right: 45%;
-                text-align: right;
-                white-space: normal;
-                min-height: 32px;
-            }
-
+            td { border: none; position: relative; padding: 6px 0; padding-right: 42%; text-align: right; white-space: normal; min-height: 28px; }
             td:before {
-                position: absolute;
-                top: 8px;
-                right: 0;
-                width: 42%;
-                white-space: nowrap;
-                font-weight: 700;
+                position: absolute; top: 6px; right: 0; width: 40%;
+                white-space: nowrap; font-weight: 700;
                 color: var(--heading-color);
                 content: attr(data-label);
             }
-
-            td:first-child { padding-right: 0; text-align: center; padding-bottom: 16px; }
+            td:first-child { padding-right: 0; text-align: center; padding-bottom: 12px; }
             td:first-child:before { display: none; }
-            
-            .table-img { width: 100%; height: 160px; border-radius: var(--radius-sm); }
-
+            .table-img { width: 100%; height: 140px; }
             .action-btns { justify-content: flex-end; width: 100%; }
         }
 
-        /* =========================================
-           Loading spinner
-           ========================================= */
         .loading-spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
+            display: inline-block; width: 18px; height: 18px;
             border: 3px solid rgba(255,255,255,0.3);
             border-top-color: #FFF;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
-            margin-left: 8px;
+            margin-right: 8px;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Info box */
+        .info-box {
+            background: rgba(1,56,120,0.05);
+            border: 1px solid rgba(1,56,120,0.15);
+            border-radius: var(--radius-sm);
+            padding: 14px 18px;
+            margin-bottom: 20px;
+            font-size: 0.85rem;
+            color: var(--body-color);
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+        .info-box svg { flex-shrink: 0; color: var(--primary); margin-top: 2px; }
     </style>
 </head>
 <body>
 
-    <!-- Mobile header -->
     <div class="mobile-header">
         <h2>UNI <span>PLUS</span></h2>
         <button class="mobile-toggle" onclick="toggleSidebar()">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
         </button>
     </div>
 
@@ -693,131 +421,352 @@
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <h2>UNI <span>PLUS</span></h2>
-                <p>لوحة التحكم — الباقات والعروض</p>
+                <p>لوحة التحكم الشاملة</p>
             </div>
             <div class="sidebar-nav">
-                <a class="active" onclick="switchTab('add-package', this)">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                    إضافة باقة
+                <a onclick="switchTab('general', this)" class="active">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    الإعدادات العامة
                 </a>
-                <a onclick="switchTab('manage-packages', this)">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
-                    إدارة الباقات
+                <a onclick="switchTab('about', this)">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    من نحن
                 </a>
-                <a href="index.html" target="_blank" style="margin-top: auto; border: 1px solid rgba(255,255,255,0.12);">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                <a onclick="switchTab('contact', this)">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                    معلومات التواصل
+                </a>
+                <a onclick="switchTab('social', this)">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                    وسائل التواصل
+                </a>
+                <div class="divider"></div>
+                <a onclick="switchTab('packages', this)">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                    الباقات والعروض
+                </a>
+                <a onclick="switchTab('offices', this)">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    الفروع
+                </a>
+                <div class="divider"></div>
+                <a href="index.html" target="_blank" style="border: 1px solid rgba(255,255,255,0.12);">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
                     عرض الموقع
                 </a>
             </div>
         </div>
 
-        <!-- Main content -->
+        <!-- Main Content -->
         <div class="main-content">
             <div class="top-bar">
-                <h1 id="pageTitle">إضافة باقة جديدة</h1>
+                <h1 id="pageTitle">الإعدادات العامة</h1>
                 <a href="index.html" target="_blank" class="btn-view">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                     معاينة الموقع
                 </a>
             </div>
 
-            <!-- ============ TAB: ADD PACKAGE ============ -->
-            <div id="tab-add-package" class="tab-content active">
+            <!-- ====== TAB: GENERAL ====== -->
+            <div id="tab-general" class="tab-content">
                 <div class="card">
-                    <form id="packageForm" onsubmit="savePackage(event)">
-                        <input type="hidden" id="packageId">
-
+                    <form id="generalForm" onsubmit="saveSettings(event, 'general')">
                         <div class="form-grid">
-                            <!-- العنوان -->
+                            <div class="form-section-title">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15 8.5 22 9.3 17 14 18.2 21 12 17.8 5.8 21 7 14 2 9.3 9 8.5 12 2"></polygon></svg>
+                                نصوص الهيرو (أعلى الصفحة)
+                            </div>
                             <div class="form-group full">
-                                <label>عنوان الباقة *</label>
-                                <input type="text" id="title" class="form-control" required placeholder="مثال: باقة إسطنبول الصيفية">
+                                <label>العنوان الرئيسي (Hero)</label>
+                                <input type="text" id="hero_title" class="form-control" placeholder="رحلتك نحو العالم تبدأ مع UNI PLUS">
                             </div>
-
-                            <!-- الوجهة + المدة -->
-                            <div class="form-group">
-                                <label>الوجهة</label>
-                                <input type="text" id="destination" class="form-control" placeholder="مثال: إسطنبول، تركيا">
-                            </div>
-                            <div class="form-group">
-                                <label>المدة</label>
-                                <input type="text" id="duration" class="form-control" placeholder="مثال: 7 ليالٍ / 8 أيام">
-                            </div>
-
-                            <!-- السعر + العملة -->
-                            <div class="form-group">
-                                <label>السعر</label>
-                                <input type="number" id="price" class="form-control" step="0.01" min="0" placeholder="0">
-                            </div>
-                            <div class="form-group">
-                                <label>العملة</label>
-                                <input type="text" id="currency" class="form-control" value="LYD" placeholder="LYD">
-                            </div>
-
-                            <!-- الشارة + الترتيب -->
-                            <div class="form-group">
-                                <label>الشارة (Badge)</label>
-                                <input type="text" id="badge" class="form-control" placeholder="مثال: الأكثر مبيعاً">
-                            </div>
-                            <div class="form-group">
-                                <label>ترتيب العرض</label>
-                                <input type="number" id="sort_order" class="form-control" value="0" min="0">
-                            </div>
-
-                            <!-- الوصف -->
                             <div class="form-group full">
-                                <label>وصف الباقة</label>
-                                <textarea id="description" class="form-control" placeholder="وصف مختصر وجذاب للباقة..."></textarea>
+                                <label>الوصف الفرعي (Hero)</label>
+                                <textarea id="hero_subtitle" class="form-control" style="min-height:70px" placeholder="الريادة في مجال السفر والسياحة والدراسة..."></textarea>
                             </div>
-
-                            <!-- المميزات -->
                             <div class="form-group full">
-                                <label>المميزات (سطر لكل ميزة)</label>
-                                <textarea id="features" class="form-control" style="min-height:110px" placeholder="تذاكر طيران&#10;فندق 4 نجوم&#10;استقبال بالمطار&#10;جولات سياحية"></textarea>
-                            </div>
-
-                            <!-- رفع الصورة -->
-                            <div class="form-group full">
-                                <label>صورة الباقة</label>
-                                <div class="upload-area" id="uploadArea">
-                                    <input type="file" id="fileInput" accept="image/*" onchange="handleFileSelect(event)">
-                                    <span class="upload-icon">📸</span>
-                                    <div class="upload-text">اضغط هنا أو اسحب الصورة</div>
-                                    <div class="upload-subtext">يدعم JPG, PNG, WEBP — أو الصق رابط الصورة أدناه</div>
-                                </div>
-                                <input type="url" id="image_url" class="form-control" placeholder="أو الصق رابط صورة مباشر هنا..." style="margin-top: 12px;">
-                                <div class="preview-grid" id="imagePreviewContainer"></div>
-                            </div>
-
-                            <!-- الحالة -->
-                            <div class="form-group full">
-                                <div class="checkbox-row" onclick="document.getElementById('is_active').click()">
-                                    <input type="checkbox" id="is_active" checked onclick="event.stopPropagation()">
-                                    <label for="is_active">نشط — يظهر على الموقع</label>
-                                </div>
+                                <label>شارة الشركة (Badge تحت العنوان)</label>
+                                <input type="text" id="company_badge" class="form-control" placeholder="شركة المتحدة بلس · سجل تجاري 2026-06-0219">
                             </div>
                         </div>
-
                         <div class="form-actions">
-                            <button type="submit" class="btn btn-primary" id="submitBtn">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
-                                حفظ الباقة
-                            </button>
-                            <button type="button" class="btn btn-secondary" onclick="resetForm()">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
-                                إفراغ
+                            <button type="submit" class="btn btn-primary">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                                حفظ التغييرات
                             </button>
                         </div>
                     </form>
                 </div>
             </div>
 
-            <!-- ============ TAB: MANAGE PACKAGES ============ -->
-            <div id="tab-manage-packages" class="tab-content" style="display:none;">
+            <!-- ====== TAB: ABOUT ====== -->
+            <div id="tab-about" class="tab-content" style="display:none;">
+                <div class="card">
+                    <form id="aboutForm" onsubmit="saveSettings(event, 'about')">
+                        <div class="form-grid">
+                            <div class="form-section-title">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                                محتوى "من نحن"
+                            </div>
+                            <div class="form-group full">
+                                <label>عنوان القسم</label>
+                                <input type="text" id="about_title" class="form-control" placeholder="نفتح لك آفاق العالم بثقة واحترافية">
+                            </div>
+                            <div class="form-group full">
+                                <label>الوصف</label>
+                                <textarea id="about_description" class="form-control" placeholder="شركة UNI PLUS هي إحدى شركات المتحدة بلس..."></textarea>
+                            </div>
+                            <div class="form-group full">
+                                <label>الرؤية</label>
+                                <textarea id="about_vision" class="form-control" style="min-height:90px" placeholder="الريادة في مجال السفر والسياحة والدراسة..."></textarea>
+                            </div>
+
+                            <div class="form-section-title">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>
+                                الإحصائيات (البطاقة البصرية)
+                            </div>
+                            <div class="form-group">
+                                <label>الإحصائية الأولى — الرقم</label>
+                                <input type="text" id="about_stat_1_value" class="form-control" placeholder="4">
+                            </div>
+                            <div class="form-group">
+                                <label>الإحصائية الأولى — الوصف</label>
+                                <input type="text" id="about_stat_1_label" class="form-control" placeholder="مقرات وفروع">
+                            </div>
+                            <div class="form-group">
+                                <label>الإحصائية الثانية — الرقم</label>
+                                <input type="text" id="about_stat_2_value" class="form-control" placeholder="2026">
+                            </div>
+                            <div class="form-group">
+                                <label>الإحصائية الثانية — الوصف</label>
+                                <input type="text" id="about_stat_2_label" class="form-control" placeholder="سجل تجاري">
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                                حفظ التغييرات
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ====== TAB: CONTACT ====== -->
+            <div id="tab-contact" class="tab-content" style="display:none;">
+                <div class="card">
+                    <form id="contactForm" onsubmit="saveSettings(event, 'contact')">
+                        <div class="form-grid">
+                            <div class="form-section-title">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                                معلومات التواصل
+                            </div>
+                            <div class="form-group">
+                                <label>رقم الهاتف</label>
+                                <input type="text" id="phone" class="form-control" placeholder="0920010505">
+                            </div>
+                            <div class="form-group">
+                                <label>رقم واتساب (بصيغة دولية بدون +)</label>
+                                <input type="text" id="whatsapp" class="form-control" placeholder="218920010505">
+                            </div>
+                            <div class="form-group">
+                                <label>البريد الإلكتروني</label>
+                                <input type="email" id="email" class="form-control" placeholder="info@uniplus.com">
+                            </div>
+                            <div class="form-group">
+                                <label>ساعات العمل</label>
+                                <input type="text" id="work_hours" class="form-control" placeholder="السبت — الخميس">
+                            </div>
+                            <div class="form-group">
+                                <label>السجل التجاري</label>
+                                <input type="text" id="commercial_register" class="form-control" placeholder="2026-06-0219">
+                            </div>
+                            <div class="form-group">
+                                <label>العنوان</label>
+                                <input type="text" id="address" class="form-control" placeholder="بنغازي، ليبيا">
+                            </div>
+                            <div class="form-group full">
+                                <label>رابط خرائط جوجل</label>
+                                <input type="url" id="maps_url" class="form-control" placeholder="https://maps.app.goo.gl/...">
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                                حفظ التغييرات
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ====== TAB: SOCIAL ====== -->
+            <div id="tab-social" class="tab-content" style="display:none;">
+                <div class="info-box">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    <span>وسائل التواصل المُضافة هنا تظهر تلقائياً في الموقع. اختر المنصة، أدخل الرابط، واضغط حفظ.</span>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            إضافة وسيلة تواصل
+                        </h3>
+                    </div>
+                    <form id="socialForm" onsubmit="saveSocial(event)">
+                        <input type="hidden" id="socialId">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>المنصة *</label>
+                                <select id="platform" class="form-control" required onchange="previewPlatformIcon()">
+                                    <option value="">— اختر المنصة —</option>
+                                    <option value="facebook">فيسبوك</option>
+                                    <option value="instagram">إنستغرام</option>
+                                    <option value="twitter">تويتر / X</option>
+                                    <option value="tiktok">تيك توك</option>
+                                    <option value="youtube">يوتيوب</option>
+                                    <option value="snapchat">سناب شات</option>
+                                    <option value="telegram">تيليجرام</option>
+                                    <option value="linkedin">لينكدإن</option>
+                                    <option value="whatsapp">واتساب</option>
+                                    <option value="other">أخرى</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>الاسم المخصص (اختياري)</label>
+                                <input type="text" id="label" class="form-control" placeholder="مثال: صفحتنا على فيسبوك">
+                            </div>
+                            <div class="form-group full">
+                                <label>الرابط *</label>
+                                <input type="url" id="url" class="form-control" required placeholder="https://facebook.com/yourpage">
+                            </div>
+                            <div class="form-group">
+                                <label>الترتيب</label>
+                                <input type="number" id="social_sort" class="form-control" value="0" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <div class="checkbox-row" onclick="document.getElementById('social_active').click()">
+                                    <input type="checkbox" id="social_active" checked onclick="event.stopPropagation()">
+                                    <label for="social_active">نشط — يظهر على الموقع</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary" id="socialSubmitBtn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                إضافة وسيلة
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="resetSocialForm()">إفراغ</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle></svg>
+                            وسائل التواصل الحالية
+                        </h3>
+                        <span class="count-badge" id="socialCountBadge">0</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>المنصة</th>
+                                    <th>الرابط</th>
+                                    <th>الحالة</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="socialTableBody">
+                                <tr><td colspan="4" style="text-align:center; padding:30px;">جاري التحميل...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ====== TAB: PACKAGES ====== -->
+            <div id="tab-packages" class="tab-content" style="display:none;">
+                <div class="card">
+                    <form id="packageForm" onsubmit="savePackage(event)">
+                        <input type="hidden" id="packageId">
+                        <div class="form-grid">
+                            <div class="form-section-title">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                                <span id="packageFormTitle">إضافة باقة جديدة</span>
+                            </div>
+                            <div class="form-group full">
+                                <label>العنوان *</label>
+                                <input type="text" id="pkg_title" class="form-control" required placeholder="باقة إسطنبول الصيفية">
+                            </div>
+                            <div class="form-group">
+                                <label>الوجهة</label>
+                                <input type="text" id="pkg_destination" class="form-control" placeholder="إسطنبول، تركيا">
+                            </div>
+                            <div class="form-group">
+                                <label>المدة</label>
+                                <input type="text" id="pkg_duration" class="form-control" placeholder="7 ليالٍ / 8 أيام">
+                            </div>
+                            <div class="form-group">
+                                <label>السعر</label>
+                                <input type="number" id="pkg_price" class="form-control" step="0.01" min="0" placeholder="0">
+                            </div>
+                            <div class="form-group">
+                                <label>العملة</label>
+                                <input type="text" id="pkg_currency" class="form-control" value="LYD">
+                            </div>
+                            <div class="form-group">
+                                <label>الشارة</label>
+                                <input type="text" id="pkg_badge" class="form-control" placeholder="الأكثر مبيعاً">
+                            </div>
+                            <div class="form-group">
+                                <label>الترتيب</label>
+                                <input type="number" id="pkg_sort" class="form-control" value="0" min="0">
+                            </div>
+                            <div class="form-group full">
+                                <label>الوصف</label>
+                                <textarea id="pkg_description" class="form-control" placeholder="وصف مختصر..."></textarea>
+                            </div>
+                            <div class="form-group full">
+                                <label>المميزات (سطر لكل ميزة)</label>
+                                <textarea id="pkg_features" class="form-control" style="min-height:100px" placeholder="تذاكر طيران&#10;فندق 4 نجوم&#10;استقبال بالمطار"></textarea>
+                            </div>
+                            <div class="form-group full">
+                                <label>صورة الباقة</label>
+                                <div class="upload-area" id="pkgUploadArea">
+                                    <input type="file" id="pkgFileInput" accept="image/*" onchange="handlePkgFile(event)">
+                                    <span class="upload-icon">📸</span>
+                                    <div class="upload-text">اضغط هنا أو اسحب الصورة</div>
+                                    <div class="upload-subtext">أو الصق رابط الصورة أدناه</div>
+                                </div>
+                                <input type="url" id="pkg_image_url" class="form-control" placeholder="أو الصق رابط صورة مباشر..." style="margin-top:12px;">
+                                <div class="preview-grid" id="pkgPreview"></div>
+                            </div>
+                            <div class="form-group full">
+                                <div class="checkbox-row" onclick="document.getElementById('pkg_active').click()">
+                                    <input type="checkbox" id="pkg_active" checked onclick="event.stopPropagation()">
+                                    <label for="pkg_active">نشط — يظهر على الموقع</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary" id="pkgSubmitBtn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                                حفظ الباقة
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="resetPackageForm()">إفراغ</button>
+                        </div>
+                    </form>
+                </div>
+
                 <div class="card">
                     <div class="card-header">
                         <h3>جميع الباقات</h3>
-                        <span class="count-badge" id="countBadge">0</span>
+                        <span class="count-badge" id="pkgCountBadge">0</span>
                     </div>
                     <div class="table-responsive">
                         <table>
@@ -825,19 +774,110 @@
                                 <tr>
                                     <th>الصورة</th>
                                     <th>العنوان</th>
-                                    <th>الوجهة</th>
                                     <th>السعر</th>
                                     <th>الحالة</th>
                                     <th>الإجراءات</th>
                                 </tr>
                             </thead>
-                            <tbody id="packagesTableBody">
-                                <tr><td colspan="6" style="text-align:center; padding: 40px;">جاري التحميل...</td></tr>
+                            <tbody id="pkgTableBody">
+                                <tr><td colspan="5" style="text-align:center; padding:30px;">جاري التحميل...</td></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
+
+            <!-- ====== TAB: OFFICES ====== -->
+            <div id="tab-offices" class="tab-content" style="display:none;">
+                <div class="card">
+                    <form id="officeForm" onsubmit="saveOffice(event)">
+                        <input type="hidden" id="officeId">
+                        <div class="form-grid">
+                            <div class="form-section-title">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                <span id="officeFormTitle">إضافة فرع جديد</span>
+                            </div>
+                            <div class="form-group">
+                                <label>الدولة *</label>
+                                <input type="text" id="off_country" class="form-control" required placeholder="ليبيا">
+                            </div>
+                            <div class="form-group">
+                                <label>المدينة *</label>
+                                <input type="text" id="off_city" class="form-control" required placeholder="بنغازي">
+                            </div>
+                            <div class="form-group full">
+                                <label>العنوان الكامل</label>
+                                <input type="text" id="off_address" class="form-control" placeholder="بنغازي، ليبيا">
+                            </div>
+                            <div class="form-group">
+                                <label>الهاتف</label>
+                                <input type="text" id="off_phone" class="form-control" placeholder="0920010505">
+                            </div>
+                            <div class="form-group">
+                                <label>واتساب (دولي بدون +)</label>
+                                <input type="text" id="off_whatsapp" class="form-control" placeholder="218920010505">
+                            </div>
+                            <div class="form-group full">
+                                <label>رابط الخريطة</label>
+                                <input type="url" id="off_maps" class="form-control" placeholder="https://maps.app.goo.gl/...">
+                            </div>
+                            <div class="form-group">
+                                <label>نوع الخدمة</label>
+                                <input type="text" id="off_service" class="form-control" placeholder="فرع سفر وسياحة">
+                            </div>
+                            <div class="form-group">
+                                <label>الترتيب</label>
+                                <input type="number" id="off_sort" class="form-control" value="0" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <div class="checkbox-row" onclick="document.getElementById('off_main').click()">
+                                    <input type="checkbox" id="off_main" onclick="event.stopPropagation()">
+                                    <label for="off_main">المقر الرئيسي</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <div class="checkbox-row" onclick="document.getElementById('off_active').click()">
+                                    <input type="checkbox" id="off_active" checked onclick="event.stopPropagation()">
+                                    <label for="off_active">نشط</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary" id="offSubmitBtn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                                حفظ الفرع
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="resetOfficeForm()">إفراغ</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>الفروع الحالية</h3>
+                        <span class="count-badge" id="offCountBadge">0</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>المدينة</th>
+                                    <th>الدولة</th>
+                                    <th>الخدمة</th>
+                                    <th>الحالة</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="offTableBody">
+                                <tr><td colspan="5" style="text-align:center; padding:30px;">جاري التحميل...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -846,43 +886,50 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         // ============================================
-        // Supabase Configuration
+        // Supabase Config
         // ============================================
         const SUPABASE_URL = 'https://mmqbwmnvcpblateekoed.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_2kGdSLEcZLKBFjjolUo3Lg_4D-gR7fY';
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
         const STORAGE_BUCKET = 'packages';
 
-        let selectedFile = null;
-        let existingImageUrl = '';
+        let currentSettings = {};
+        let pkgSelectedFile = null;
+        let pkgExistingImageUrl = '';
+
+        const PLATFORM_NAMES = {
+            facebook: 'فيسبوك', instagram: 'إنستغرام', twitter: 'تويتر / X',
+            tiktok: 'تيك توك', youtube: 'يوتيوب', snapchat: 'سناب شات',
+            telegram: 'تيليجرام', linkedin: 'لينكدإن', whatsapp: 'واتساب', other: 'أخرى'
+        };
 
         document.addEventListener('DOMContentLoaded', () => {
+            loadSettings();
+            loadSocialLinks();
             loadPackages();
-            initDragAndDrop();
+            loadOffices();
+            initPkgDragDrop();
         });
 
         // ============================================
-        // Tab switching
+        // Tabs
         // ============================================
-        function switchTab(tabId, element) {
+        const TAB_TITLES = {
+            general: 'الإعدادات العامة',
+            about: 'من نحن',
+            contact: 'معلومات التواصل',
+            social: 'وسائل التواصل',
+            packages: 'الباقات والعروض',
+            offices: 'الفروع'
+        };
+
+        function switchTab(tabId, el) {
             document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
             document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
-            
             document.getElementById('tab-' + tabId).style.display = 'block';
-            if(element) element.classList.add('active');
-            
-            if (tabId === 'add-package') {
-                document.getElementById('pageTitle').innerText = 'إضافة باقة جديدة';
-                resetForm();
-            } else if (tabId === 'manage-packages') {
-                document.getElementById('pageTitle').innerText = 'إدارة الباقات';
-                loadPackages();
-            }
-
-            if (window.innerWidth <= 900) {
-                document.getElementById('sidebar').classList.remove('open');
-            }
+            if (el) el.classList.add('active');
+            document.getElementById('pageTitle').innerText = TAB_TITLES[tabId] || '';
+            if (window.innerWidth <= 900) document.getElementById('sidebar').classList.remove('open');
         }
 
         function toggleSidebar() {
@@ -890,286 +937,539 @@
         }
 
         // ============================================
-        // Image Upload
+        // SETTINGS (General / About / Contact)
         // ============================================
-        function handleFileSelect(event) {
-            const file = event.target.files[0];
-            if (!file || !file.type.startsWith('image/')) return;
-            selectedFile = file;
-            renderPreview(URL.createObjectURL(file));
-            event.target.value = '';
+        async function loadSettings() {
+            const { data, error } = await supabaseClient.from('site_settings').select('*').eq('id', 1).single();
+            if (error) {
+                console.warn('settings load error:', error.message);
+                return;
+            }
+            currentSettings = data || {};
+            // General
+            setVal('hero_title', data.hero_title);
+            setVal('hero_subtitle', data.hero_subtitle);
+            setVal('company_badge', data.company_badge);
+            // About
+            setVal('about_title', data.about_title);
+            setVal('about_description', data.about_description);
+            setVal('about_vision', data.about_vision);
+            setVal('about_stat_1_value', data.about_stat_1_value);
+            setVal('about_stat_1_label', data.about_stat_1_label);
+            setVal('about_stat_2_value', data.about_stat_2_value);
+            setVal('about_stat_2_label', data.about_stat_2_label);
+            // Contact
+            setVal('phone', data.phone);
+            setVal('whatsapp', data.whatsapp);
+            setVal('email', data.email);
+            setVal('work_hours', data.work_hours);
+            setVal('commercial_register', data.commercial_register);
+            setVal('address', data.address);
+            setVal('maps_url', data.maps_url);
         }
 
-        function initDragAndDrop() {
-            const uploadArea = document.getElementById('uploadArea');
-            if (!uploadArea) return;
+        function setVal(id, v) { const el = document.getElementById(id); if (el) el.value = v || ''; }
+        function getVal(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
 
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(evt => {
-                uploadArea.addEventListener(evt, e => { e.preventDefault(); e.stopPropagation(); });
-            });
-            ['dragenter', 'dragover'].forEach(evt => {
-                uploadArea.addEventListener(evt, () => uploadArea.classList.add('dragover'));
-            });
-            ['dragleave', 'drop'].forEach(evt => {
-                uploadArea.addEventListener(evt, () => uploadArea.classList.remove('dragover'));
-            });
-            uploadArea.addEventListener('drop', (e) => {
-                const file = e.dataTransfer.files[0];
-                if (file && file.type.startsWith('image/')) {
-                    selectedFile = file;
-                    renderPreview(URL.createObjectURL(file));
-                }
-            });
-        }
-
-        function renderPreview(src) {
-            const container = document.getElementById('imagePreviewContainer');
-            container.innerHTML = `
-                <div class="preview-item">
-                    <img src="${src}" alt="preview">
-                    <button type="button" class="preview-remove" onclick="removeImage()">×</button>
-                </div>
-            `;
-        }
-
-        function removeImage() {
-            selectedFile = null;
-            existingImageUrl = '';
-            document.getElementById('imagePreviewContainer').innerHTML = '';
-            document.getElementById('image_url').value = '';
-        }
-
-        // ============================================
-        // CRUD
-        // ============================================
-        async function savePackage(e) {
+        async function saveSettings(e, section) {
             e.preventDefault();
-            const id = document.getElementById('packageId').value;
-            const btn = document.getElementById('submitBtn');
-            const originalText = btn.innerHTML;
-
+            const btn = e.target.querySelector('button[type="submit"]');
+            const orig = btn.innerHTML;
             btn.innerHTML = 'جاري الحفظ... <span class="loading-spinner"></span>';
             btn.disabled = true;
 
             try {
-                let imageUrl = document.getElementById('image_url').value.trim() || existingImageUrl;
-
-                if (selectedFile) {
-                    const fileExt = selectedFile.name.split('.').pop();
-                    const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
-
-                    const { error: uploadError } = await supabaseClient.storage
-                        .from(STORAGE_BUCKET)
-                        .upload(fileName, selectedFile, { upsert: false });
-
-                    if (uploadError) {
-                        if (!imageUrl) throw new Error('فشل رفع الصورة: ' + uploadError.message + ' — يمكنك لصق رابط صورة مباشر بدلاً من ذلك');
-                    } else {
-                        const { data: urlData } = supabaseClient.storage
-                            .from(STORAGE_BUCKET)
-                            .getPublicUrl(fileName);
-                        imageUrl = urlData.publicUrl;
-                    }
+                let payload = {};
+                if (section === 'general') {
+                    payload = {
+                        hero_title: getVal('hero_title'),
+                        hero_subtitle: getVal('hero_subtitle'),
+                        company_badge: getVal('company_badge')
+                    };
+                } else if (section === 'about') {
+                    payload = {
+                        about_title: getVal('about_title'),
+                        about_description: getVal('about_description'),
+                        about_vision: getVal('about_vision'),
+                        about_stat_1_value: getVal('about_stat_1_value'),
+                        about_stat_1_label: getVal('about_stat_1_label'),
+                        about_stat_2_value: getVal('about_stat_2_value'),
+                        about_stat_2_label: getVal('about_stat_2_label')
+                    };
+                } else if (section === 'contact') {
+                    payload = {
+                        phone: getVal('phone'),
+                        whatsapp: getVal('whatsapp'),
+                        email: getVal('email'),
+                        work_hours: getVal('work_hours'),
+                        commercial_register: getVal('commercial_register'),
+                        address: getVal('address'),
+                        maps_url: getVal('maps_url')
+                    };
                 }
+                payload.updated_at = new Date().toISOString();
 
-                const featuresText = document.getElementById('features').value.trim();
-                const features = featuresText ? featuresText.split('\n').map(l => l.trim()).filter(Boolean) : [];
-
-                const packageData = {
-                    title: document.getElementById('title').value.trim(),
-                    description: document.getElementById('description').value.trim() || null,
-                    price: document.getElementById('price').value ? Number(document.getElementById('price').value) : null,
-                    currency: document.getElementById('currency').value.trim() || 'LYD',
-                    image_url: imageUrl || null,
-                    destination: document.getElementById('destination').value.trim() || null,
-                    duration: document.getElementById('duration').value.trim() || null,
-                    features: features,
-                    badge: document.getElementById('badge').value.trim() || null,
-                    is_active: document.getElementById('is_active').checked,
-                    sort_order: Number(document.getElementById('sort_order').value) || 0
-                };
-
-                if (!packageData.title) throw new Error('العنوان مطلوب');
-
-                let error;
-                if (id) {
-                    const res = await supabaseClient.from('packages').update(packageData).eq('id', id);
-                    error = res.error;
-                } else {
-                    const res = await supabaseClient.from('packages').insert([packageData]);
-                    error = res.error;
-                }
-
+                const { error } = await supabaseClient.from('site_settings').update(payload).eq('id', 1);
                 if (error) throw error;
-
-                showToast(id ? '✅ تم تحديث الباقة بنجاح' : '✅ تمت إضافة الباقة بنجاح', 'success');
-                resetForm();
-                document.querySelectorAll('.sidebar-nav a')[1].click();
-
+                showToast('✅ تم حفظ التغييرات بنجاح', 'success');
             } catch (err) {
                 console.error(err);
                 showToast('❌ ' + err.message, 'error');
             } finally {
-                btn.innerHTML = originalText;
+                btn.innerHTML = orig;
                 btn.disabled = false;
             }
         }
 
-        async function loadPackages() {
-            const tbody = document.getElementById('packagesTableBody');
-            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 40px;">جاري التحميل...</td></tr>';
-
+        // ============================================
+        // SOCIAL LINKS
+        // ============================================
+        async function loadSocialLinks() {
+            const tbody = document.getElementById('socialTableBody');
             const { data, error } = await supabaseClient
-                .from('packages')
+                .from('social_links')
                 .select('*')
                 .order('sort_order', { ascending: true })
-                .order('created_at', { ascending: false });
+                .order('created_at', { ascending: true });
 
             if (error) {
-                tbody.innerHTML = `<tr><td colspan="6" style="color:red; text-align:center; padding:40px;">خطأ: ${error.message}</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" style="color:red;text-align:center;padding:20px;">خطأ: ${error.message}</td></tr>`;
                 return;
             }
-
-            document.getElementById('countBadge').innerText = data.length;
+            document.getElementById('socialCountBadge').innerText = data.length;
 
             if (data.length === 0) {
-                tbody.innerHTML = `
-                    <tr><td colspan="6">
-                        <div class="empty-state">
-                            <div class="icon-big">📦</div>
-                            <h4>لا توجد باقات بعد</h4>
-                            <p>أضف أول باقة من نموذج "إضافة باقة"</p>
-                        </div>
-                    </td></tr>
-                `;
+                tbody.innerHTML = `<tr><td colspan="4"><div class="empty-state"><div class="icon-big">🔗</div><h4>لا توجد وسائل تواصل بعد</h4><p>أضف أول وسيلة من النموذج أعلاه</p></div></td></tr>`;
                 return;
             }
 
-            const defaultImg = 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=100';
-
-            tbody.innerHTML = data.map(pkg => {
-                const img = pkg.image_url || defaultImg;
-                const price = pkg.price ? `${Number(pkg.price).toLocaleString('en-US')} ${pkg.currency || 'LYD'}` : '—';
-
-                return `
+            tbody.innerHTML = data.map(s => `
                 <tr>
-                    <td data-label="الصورة">
-                        <img src="${escapeHtml(img)}" class="table-img" alt="" onerror="this.src='${defaultImg}'">
+                    <td data-label="المنصة">
+                        <div style="display:flex;align-items:center;gap:10px;">
+                            <div class="social-icon-preview si-${escapeHtml(s.platform)}">${platformIcon(s.platform)}</div>
+                            <div>
+                                <div style="font-weight:700;color:var(--heading-color);">${escapeHtml(s.label || PLATFORM_NAMES[s.platform] || s.platform)}</div>
+                                <div style="font-size:0.75rem;color:var(--muted-color);">${escapeHtml(PLATFORM_NAMES[s.platform] || s.platform)}</div>
+                            </div>
+                        </div>
                     </td>
-                    <td data-label="العنوان" style="font-weight:700; color:var(--heading-color); white-space:normal; max-width:220px;">
-                        ${escapeHtml(pkg.title)}
-                        ${pkg.badge ? `<br><span class="badge badge-gold" style="margin-top:4px;">${escapeHtml(pkg.badge)}</span>` : ''}
+                    <td data-label="الرابط" style="max-width:260px;overflow:hidden;text-overflow:ellipsis;">
+                        <a href="${escapeHtml(s.url)}" target="_blank" style="color:var(--primary);text-decoration:none;">${escapeHtml(s.url)}</a>
                     </td>
-                    <td data-label="الوجهة">${escapeHtml(pkg.destination || '—')}</td>
-                    <td data-label="السعر" style="font-weight:700;">${price}</td>
                     <td data-label="الحالة">
-                        ${pkg.is_active
-                            ? '<span class="badge badge-active">✓ نشط</span>'
-                            : '<span class="badge badge-inactive">✗ غير نشط</span>'}
+                        ${s.is_active ? '<span class="badge badge-active">✓ نشط</span>' : '<span class="badge badge-inactive">✗ غير نشط</span>'}
                     </td>
                     <td data-label="الإجراءات">
                         <div class="action-btns">
-                            <button class="btn-icon btn-edit" onclick="editPackage(${pkg.id})" title="تعديل">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                            <button class="btn-icon btn-edit" onclick="editSocial(${s.id})" title="تعديل">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                             </button>
-                            <button class="btn-icon btn-delete" onclick="deletePackage(${pkg.id})" title="حذف">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                            <button class="btn-icon btn-delete" onclick="deleteSocial(${s.id})" title="حذف">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
                             </button>
                         </div>
                     </td>
                 </tr>
-            `}).join('');
+            `).join('');
+        }
+
+        function platformIcon(p) {
+            const icons = {
+                facebook: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>',
+                instagram: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>',
+                twitter: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>',
+                tiktok: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/></svg>',
+                youtube: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>',
+                snapchat: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.206.793c.99 0 4.347.276 5.93 3.821.529 1.193.403 3.219.299 4.847l-.003.06c-.012.18-.022.345-.03.51.075.045.203.09.401.09.3-.016.659-.12 1.033-.301.165-.088.344-.104.464-.104.182 0 .359.029.509.09.45.149.734.479.734.838.015.449-.39.839-1.213 1.168-.089.029-.209.075-.344.119-.45.135-1.139.36-1.333.81-.09.224-.061.524.12.868l.015.015c.06.136 1.526 3.475 4.791 4.014.255.044.435.27.42.509 0 .075-.015.149-.045.225-.24.569-1.273.988-3.146 1.271-.059.091-.12.375-.164.57-.029.179-.074.36-.134.553-.076.271-.27.405-.555.405h-.03c-.135 0-.313-.031-.538-.074-.36-.075-.765-.135-1.273-.135-.3 0-.599.015-.913.074-.6.104-1.123.464-1.723.884-.853.599-1.826 1.288-3.294 1.288-.06 0-.119-.015-.18-.015h-.149c-1.468 0-2.427-.674-3.279-1.273-.599-.42-1.122-.779-1.723-.884-.314-.06-.614-.075-.913-.075-.509 0-.914.06-1.274.135-.224.045-.404.074-.539.074-.286 0-.479-.135-.554-.404-.061-.195-.106-.375-.135-.555-.045-.194-.105-.479-.165-.57-1.872-.282-2.906-.701-3.146-1.27-.03-.076-.045-.15-.045-.226-.015-.24.164-.465.42-.51 3.265-.538 4.73-3.876 4.791-4.013l.015-.015c.179-.345.209-.645.12-.869-.194-.45-.883-.675-1.333-.81-.135-.044-.254-.09-.345-.119-.824-.33-1.229-.72-1.214-1.169.015-.359.285-.689.735-.838.15-.06.329-.089.51-.089.12 0 .299.015.464.104.374.181.733.286 1.034.301.198 0 .315-.045.39-.09-.008-.165-.018-.33-.03-.51l-.002-.06c-.105-1.628-.23-3.653.297-4.847C7.887 1.069 11.216.793 12.206.793z"/></svg>',
+                telegram: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>',
+                linkedin: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>',
+                whatsapp: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>',
+                other: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>'
+            };
+            return icons[p] || icons.other;
+        }
+
+        function previewPlatformIcon() {}
+
+        async function saveSocial(e) {
+            e.preventDefault();
+            const id = document.getElementById('socialId').value;
+            const btn = document.getElementById('socialSubmitBtn');
+            const orig = btn.innerHTML;
+            btn.innerHTML = 'جاري الحفظ... <span class="loading-spinner"></span>';
+            btn.disabled = true;
+
+            try {
+                const payload = {
+                    platform: document.getElementById('platform').value,
+                    label: document.getElementById('label').value.trim() || null,
+                    url: document.getElementById('url').value.trim(),
+                    is_active: document.getElementById('social_active').checked,
+                    sort_order: Number(document.getElementById('social_sort').value) || 0
+                };
+                if (!payload.platform) throw new Error('اختر المنصة');
+                if (!payload.url) throw new Error('الرابط مطلوب');
+
+                let error;
+                if (id) {
+                    const res = await supabaseClient.from('social_links').update(payload).eq('id', id);
+                    error = res.error;
+                } else {
+                    const res = await supabaseClient.from('social_links').insert([payload]);
+                    error = res.error;
+                }
+                if (error) throw error;
+
+                showToast(id ? '✅ تم تحديث وسيلة التواصل' : '✅ تمت إضافة وسيلة التواصل', 'success');
+                resetSocialForm();
+                loadSocialLinks();
+            } catch (err) {
+                showToast('❌ ' + err.message, 'error');
+            } finally {
+                btn.innerHTML = orig;
+                btn.disabled = false;
+            }
+        }
+
+        async function editSocial(id) {
+            const { data, error } = await supabaseClient.from('social_links').select('*').eq('id', id).single();
+            if (error) return showToast('خطأ في الجلب', 'error');
+            document.getElementById('socialId').value = data.id;
+            document.getElementById('platform').value = data.platform;
+            document.getElementById('label').value = data.label || '';
+            document.getElementById('url').value = data.url;
+            document.getElementById('social_sort').value = data.sort_order || 0;
+            document.getElementById('social_active').checked = data.is_active !== false;
+            document.getElementById('socialSubmitBtn').innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline></svg> حفظ التعديلات';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        async function deleteSocial(id) {
+            if (!confirm('حذف وسيلة التواصل؟')) return;
+            const { error } = await supabaseClient.from('social_links').delete().eq('id', id);
+            if (error) return showToast('خطأ: ' + error.message, 'error');
+            showToast('✅ تم الحذف', 'success');
+            loadSocialLinks();
+        }
+
+        function resetSocialForm() {
+            document.getElementById('socialForm').reset();
+            document.getElementById('socialId').value = '';
+            document.getElementById('social_active').checked = true;
+            document.getElementById('social_sort').value = 0;
+            document.getElementById('socialSubmitBtn').innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg> إضافة وسيلة';
+        }
+
+        // ============================================
+        // PACKAGES
+        // ============================================
+        async function loadPackages() {
+            const tbody = document.getElementById('pkgTableBody');
+            const { data, error } = await supabaseClient.from('packages').select('*').order('sort_order', { ascending: true }).order('created_at', { ascending: false });
+            if (error) {
+                tbody.innerHTML = `<tr><td colspan="5" style="color:red;text-align:center;padding:20px;">خطأ: ${error.message}</td></tr>`;
+                return;
+            }
+            document.getElementById('pkgCountBadge').innerText = data.length;
+            if (!data.length) {
+                tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><div class="icon-big">📦</div><h4>لا توجد باقات بعد</h4></div></td></tr>`;
+                return;
+            }
+            const defImg = 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=100';
+            tbody.innerHTML = data.map(p => `
+                <tr>
+                    <td data-label="الصورة"><img src="${escapeHtml(p.image_url || defImg)}" class="table-img" onerror="this.src='${defImg}'"></td>
+                    <td data-label="العنوان" style="font-weight:700;color:var(--heading-color);white-space:normal;max-width:200px;">${escapeHtml(p.title)}</td>
+                    <td data-label="السعر" style="font-weight:700;">${p.price ? Number(p.price).toLocaleString() + ' ' + escapeHtml(p.currency||'LYD') : '—'}</td>
+                    <td data-label="الحالة">${p.is_active ? '<span class="badge badge-active">✓ نشط</span>' : '<span class="badge badge-inactive">✗ غير نشط</span>'}</td>
+                    <td data-label="الإجراءات">
+                        <div class="action-btns">
+                            <button class="btn-icon btn-edit" onclick="editPackage(${p.id})" title="تعديل"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
+                            <button class="btn-icon btn-delete" onclick="deletePackage(${p.id})" title="حذف"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function initPkgDragDrop() {
+            const area = document.getElementById('pkgUploadArea');
+            ['dragenter','dragover','dragleave','drop'].forEach(evt => area.addEventListener(evt, e => { e.preventDefault(); e.stopPropagation(); }));
+            ['dragenter','dragover'].forEach(evt => area.addEventListener(evt, () => area.classList.add('dragover')));
+            ['dragleave','drop'].forEach(evt => area.addEventListener(evt, () => area.classList.remove('dragover')));
+            area.addEventListener('drop', e => {
+                const f = e.dataTransfer.files[0];
+                if (f && f.type.startsWith('image/')) { pkgSelectedFile = f; renderPkgPreview(URL.createObjectURL(f)); }
+            });
+        }
+
+        function handlePkgFile(e) {
+            const f = e.target.files[0];
+            if (!f || !f.type.startsWith('image/')) return;
+            pkgSelectedFile = f;
+            renderPkgPreview(URL.createObjectURL(f));
+            e.target.value = '';
+        }
+
+        function renderPkgPreview(src) {
+            document.getElementById('pkgPreview').innerHTML = `
+                <div class="preview-item">
+                    <img src="${src}" alt="">
+                    <button type="button" class="preview-remove" onclick="removePkgImage()">×</button>
+                </div>
+            `;
+        }
+
+        function removePkgImage() {
+            pkgSelectedFile = null;
+            pkgExistingImageUrl = '';
+            document.getElementById('pkgPreview').innerHTML = '';
+            document.getElementById('pkg_image_url').value = '';
+        }
+
+        async function savePackage(e) {
+            e.preventDefault();
+            const id = document.getElementById('packageId').value;
+            const btn = document.getElementById('pkgSubmitBtn');
+            const orig = btn.innerHTML;
+            btn.innerHTML = 'جاري الحفظ... <span class="loading-spinner"></span>';
+            btn.disabled = true;
+
+            try {
+                let imageUrl = document.getElementById('pkg_image_url').value.trim() || pkgExistingImageUrl;
+
+                if (pkgSelectedFile) {
+                    const ext = pkgSelectedFile.name.split('.').pop();
+                    const name = `${Date.now()}_${Math.random().toString(36).substring(7)}.${ext}`;
+                    const { error: upErr } = await supabaseClient.storage.from(STORAGE_BUCKET).upload(name, pkgSelectedFile, { upsert: false });
+                    if (upErr) {
+                        if (!imageUrl) throw new Error('فشل رفع الصورة: ' + upErr.message);
+                    } else {
+                        const { data: urlData } = supabaseClient.storage.from(STORAGE_BUCKET).getPublicUrl(name);
+                        imageUrl = urlData.publicUrl;
+                    }
+                }
+
+                const featuresText = document.getElementById('pkg_features').value.trim();
+                const features = featuresText ? featuresText.split('\n').map(l => l.trim()).filter(Boolean) : [];
+
+                const payload = {
+                    title: document.getElementById('pkg_title').value.trim(),
+                    description: document.getElementById('pkg_description').value.trim() || null,
+                    price: document.getElementById('pkg_price').value ? Number(document.getElementById('pkg_price').value) : null,
+                    currency: document.getElementById('pkg_currency').value.trim() || 'LYD',
+                    image_url: imageUrl || null,
+                    destination: document.getElementById('pkg_destination').value.trim() || null,
+                    duration: document.getElementById('pkg_duration').value.trim() || null,
+                    features: features,
+                    badge: document.getElementById('pkg_badge').value.trim() || null,
+                    is_active: document.getElementById('pkg_active').checked,
+                    sort_order: Number(document.getElementById('pkg_sort').value) || 0
+                };
+                if (!payload.title) throw new Error('العنوان مطلوب');
+
+                let error;
+                if (id) {
+                    const res = await supabaseClient.from('packages').update(payload).eq('id', id);
+                    error = res.error;
+                } else {
+                    const res = await supabaseClient.from('packages').insert([payload]);
+                    error = res.error;
+                }
+                if (error) throw error;
+
+                showToast(id ? '✅ تم تحديث الباقة' : '✅ تمت إضافة الباقة', 'success');
+                resetPackageForm();
+                loadPackages();
+            } catch (err) {
+                showToast('❌ ' + err.message, 'error');
+            } finally {
+                btn.innerHTML = orig;
+                btn.disabled = false;
+            }
         }
 
         async function editPackage(id) {
             const { data, error } = await supabaseClient.from('packages').select('*').eq('id', id).single();
-            if (error) return showToast('خطأ في جلب الباقة', 'error');
-
-            document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
-            document.getElementById('tab-add-package').style.display = 'block';
-            document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
-            document.querySelectorAll('.sidebar-nav a')[0].classList.add('active');
-            document.getElementById('pageTitle').innerText = 'تعديل الباقة';
-
+            if (error) return showToast('خطأ', 'error');
             document.getElementById('packageId').value = data.id;
-            document.getElementById('title').value = data.title || '';
-            document.getElementById('description').value = data.description || '';
-            document.getElementById('price').value = data.price || '';
-            document.getElementById('currency').value = data.currency || 'LYD';
-            document.getElementById('destination').value = data.destination || '';
-            document.getElementById('duration').value = data.duration || '';
-            document.getElementById('badge').value = data.badge || '';
-            document.getElementById('features').value = Array.isArray(data.features) ? data.features.join('\n') : '';
-            document.getElementById('is_active').checked = data.is_active !== false;
-            document.getElementById('sort_order').value = data.sort_order || 0;
-            document.getElementById('image_url').value = data.image_url || '';
-            document.getElementById('submitBtn').innerHTML = `
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
-                حفظ التعديلات
-            `;
-
-            selectedFile = null;
-            existingImageUrl = data.image_url || '';
-
-            const container = document.getElementById('imagePreviewContainer');
-            container.innerHTML = '';
+            document.getElementById('pkg_title').value = data.title || '';
+            document.getElementById('pkg_description').value = data.description || '';
+            document.getElementById('pkg_price').value = data.price || '';
+            document.getElementById('pkg_currency').value = data.currency || 'LYD';
+            document.getElementById('pkg_destination').value = data.destination || '';
+            document.getElementById('pkg_duration').value = data.duration || '';
+            document.getElementById('pkg_badge').value = data.badge || '';
+            document.getElementById('pkg_features').value = Array.isArray(data.features) ? data.features.join('\n') : '';
+            document.getElementById('pkg_active').checked = data.is_active !== false;
+            document.getElementById('pkg_sort').value = data.sort_order || 0;
+            document.getElementById('pkg_image_url').value = data.image_url || '';
+            document.getElementById('packageFormTitle').innerText = 'تعديل الباقة';
+            document.getElementById('pkgSubmitBtn').innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline></svg> حفظ التعديلات';
+            pkgSelectedFile = null;
+            pkgExistingImageUrl = data.image_url || '';
+            const prev = document.getElementById('pkgPreview');
+            prev.innerHTML = '';
             if (data.image_url) {
-                container.innerHTML = `
-                    <div class="preview-item">
-                        <img src="${escapeHtml(data.image_url)}" alt="preview" onerror="this.parentElement.remove()">
-                        <button type="button" class="preview-remove" onclick="removeImage()">×</button>
-                    </div>
-                `;
+                prev.innerHTML = `<div class="preview-item"><img src="${escapeHtml(data.image_url)}" alt="" onerror="this.parentElement.remove()"><button type="button" class="preview-remove" onclick="removePkgImage()">×</button></div>`;
             }
-
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         async function deletePackage(id) {
-            if (!confirm('هل أنت متأكد من حذف هذه الباقة نهائياً؟')) return;
-            
+            if (!confirm('حذف الباقة نهائياً؟')) return;
             const { error } = await supabaseClient.from('packages').delete().eq('id', id);
+            if (error) return showToast('خطأ: ' + error.message, 'error');
+            showToast('✅ تم الحذف', 'success');
+            loadPackages();
+        }
+
+        function resetPackageForm() {
+            document.getElementById('packageForm').reset();
+            document.getElementById('packageId').value = '';
+            document.getElementById('pkgPreview').innerHTML = '';
+            document.getElementById('pkg_currency').value = 'LYD';
+            document.getElementById('pkg_sort').value = '0';
+            document.getElementById('pkg_active').checked = true;
+            document.getElementById('packageFormTitle').innerText = 'إضافة باقة جديدة';
+            document.getElementById('pkgSubmitBtn').innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline></svg> حفظ الباقة';
+            pkgSelectedFile = null;
+            pkgExistingImageUrl = '';
+        }
+
+        // ============================================
+        // OFFICES
+        // ============================================
+        async function loadOffices() {
+            const tbody = document.getElementById('offTableBody');
+            const { data, error } = await supabaseClient.from('offices').select('*').order('sort_order', { ascending: true });
             if (error) {
-                showToast('خطأ: ' + error.message, 'error');
-            } else {
-                showToast('✅ تم حذف الباقة', 'success');
-                loadPackages();
+                tbody.innerHTML = `<tr><td colspan="5" style="color:red;text-align:center;padding:20px;">خطأ: ${error.message}</td></tr>`;
+                return;
+            }
+            document.getElementById('offCountBadge').innerText = data.length;
+            if (!data.length) {
+                tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><div class="icon-big">🏢</div><h4>لا توجد فروع</h4></div></td></tr>`;
+                return;
+            }
+            tbody.innerHTML = data.map(o => `
+                <tr>
+                    <td data-label="المدينة" style="font-weight:700;color:var(--heading-color);">
+                        ${escapeHtml(o.city)} ${o.is_main ? '<span class="badge badge-gold" style="margin-right:4px;">رئيسي</span>' : ''}
+                    </td>
+                    <td data-label="الدولة">${escapeHtml(o.country)}</td>
+                    <td data-label="الخدمة">${escapeHtml(o.service || '—')}</td>
+                    <td data-label="الحالة">${o.is_active ? '<span class="badge badge-active">✓ نشط</span>' : '<span class="badge badge-inactive">✗ معطل</span>'}</td>
+                    <td data-label="الإجراءات">
+                        <div class="action-btns">
+                            <button class="btn-icon btn-edit" onclick="editOffice(${o.id})" title="تعديل"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
+                            <button class="btn-icon btn-delete" onclick="deleteOffice(${o.id})" title="حذف"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        async function saveOffice(e) {
+            e.preventDefault();
+            const id = document.getElementById('officeId').value;
+            const btn = document.getElementById('offSubmitBtn');
+            const orig = btn.innerHTML;
+            btn.innerHTML = 'جاري الحفظ... <span class="loading-spinner"></span>';
+            btn.disabled = true;
+
+            try {
+                const payload = {
+                    country: document.getElementById('off_country').value.trim(),
+                    city: document.getElementById('off_city').value.trim(),
+                    address: document.getElementById('off_address').value.trim() || null,
+                    phone: document.getElementById('off_phone').value.trim() || null,
+                    whatsapp: document.getElementById('off_whatsapp').value.trim() || null,
+                    maps_url: document.getElementById('off_maps').value.trim() || null,
+                    service: document.getElementById('off_service').value.trim() || null,
+                    is_main: document.getElementById('off_main').checked,
+                    is_active: document.getElementById('off_active').checked,
+                    sort_order: Number(document.getElementById('off_sort').value) || 0
+                };
+                if (!payload.country || !payload.city) throw new Error('الدولة والمدينة مطلوبتان');
+
+                // إذا كان المقر الرئيسي، أزل "main" من الباقي
+                if (payload.is_main) {
+                    await supabaseClient.from('offices').update({ is_main: false }).neq('id', id || 0);
+                }
+
+                let error;
+                if (id) {
+                    const res = await supabaseClient.from('offices').update(payload).eq('id', id);
+                    error = res.error;
+                } else {
+                    const res = await supabaseClient.from('offices').insert([payload]);
+                    error = res.error;
+                }
+                if (error) throw error;
+
+                showToast(id ? '✅ تم التحديث' : '✅ تمت الإضافة', 'success');
+                resetOfficeForm();
+                loadOffices();
+            } catch (err) {
+                showToast('❌ ' + err.message, 'error');
+            } finally {
+                btn.innerHTML = orig;
+                btn.disabled = false;
             }
         }
 
-        function resetForm() {
-            document.getElementById('packageForm').reset();
-            document.getElementById('packageId').value = '';
-            document.getElementById('imagePreviewContainer').innerHTML = '';
-            document.getElementById('currency').value = 'LYD';
-            document.getElementById('sort_order').value = '0';
-            document.getElementById('is_active').checked = true;
-            document.getElementById('submitBtn').innerHTML = `
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
-                حفظ الباقة
-            `;
-            selectedFile = null;
-            existingImageUrl = '';
+        async function editOffice(id) {
+            const { data, error } = await supabaseClient.from('offices').select('*').eq('id', id).single();
+            if (error) return showToast('خطأ', 'error');
+            document.getElementById('officeId').value = data.id;
+            document.getElementById('off_country').value = data.country || '';
+            document.getElementById('off_city').value = data.city || '';
+            document.getElementById('off_address').value = data.address || '';
+            document.getElementById('off_phone').value = data.phone || '';
+            document.getElementById('off_whatsapp').value = data.whatsapp || '';
+            document.getElementById('off_maps').value = data.maps_url || '';
+            document.getElementById('off_service').value = data.service || '';
+            document.getElementById('off_main').checked = !!data.is_main;
+            document.getElementById('off_active').checked = data.is_active !== false;
+            document.getElementById('off_sort').value = data.sort_order || 0;
+            document.getElementById('officeFormTitle').innerText = 'تعديل الفرع';
+            document.getElementById('offSubmitBtn').innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline></svg> حفظ التعديلات';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        async function deleteOffice(id) {
+            if (!confirm('حذف الفرع؟')) return;
+            const { error } = await supabaseClient.from('offices').delete().eq('id', id);
+            if (error) return showToast('خطأ: ' + error.message, 'error');
+            showToast('✅ تم الحذف', 'success');
+            loadOffices();
+        }
+
+        function resetOfficeForm() {
+            document.getElementById('officeForm').reset();
+            document.getElementById('officeId').value = '';
+            document.getElementById('off_active').checked = true;
+            document.getElementById('off_main').checked = false;
+            document.getElementById('off_sort').value = 0;
+            document.getElementById('officeFormTitle').innerText = 'إضافة فرع جديد';
+            document.getElementById('offSubmitBtn').innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline></svg> حفظ الفرع';
         }
 
         // ============================================
         // Utilities
         // ============================================
         function showToast(msg, type = 'success') {
-            const toast = document.getElementById('toast');
-            toast.innerText = msg;
-            toast.className = 'show ' + type;
-            setTimeout(() => toast.classList.remove('show'), 3500);
+            const t = document.getElementById('toast');
+            t.innerText = msg;
+            t.className = 'show ' + type;
+            setTimeout(() => t.classList.remove('show'), 3500);
         }
 
         function escapeHtml(s) {
             if (s == null) return '';
-            return String(s)
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#39;');
+            return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
         }
     </script>
 </body>
