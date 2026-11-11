@@ -1,29 +1,38 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" data-theme="light">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#0A0A0A">
-    <title>NEXT SEASON | لوحة التحكم</title>
+    <meta name="theme-color" content="#013878">
+    <title>UNI PLUS | لوحة التحكم</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --primary-red: #E10600;
-            --primary-red-hover: #B80000;
+            /* ألوان UNI PLUS الأصلية */
+            --primary: #013878;
+            --primary-dark: #002a5c;
+            --primary-light: #0a4a96;
+            --gold: #C9A227;
+            --gold-light: #E8C766;
+            --gold-dark: #a88520;
+
             --black: #0A0A0A;
             --surface-main: #FFFFFF;
-            --surface-soft: #F7F7F7;
+            --surface-soft: #F5F8FC;
             --surface-card: #FFFFFF;
-            --heading-color: #0A0A0A;
-            --body-color: #4A4A4A;
-            --border-color: #E5E5E5;
-            --red-gradient: linear-gradient(135deg, #E10600, #B80000);
-            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
-            --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
-            --shadow-lg: 0 12px 32px rgba(225,6,0,0.15);
+            --heading-color: #013878;
+            --body-color: #4a5a6a;
+            --muted-color: #6b7a8a;
+            --border-color: #d0dae8;
+            --blue-gradient: linear-gradient(135deg, #013878, #0a4a96);
+            --gold-gradient: linear-gradient(135deg, #C9A227, #E8C766);
+            --shadow-sm: 0 2px 8px rgba(1,56,120,0.06);
+            --shadow-md: 0 8px 24px rgba(1,56,120,0.10);
+            --shadow-lg: 0 12px 32px rgba(1,56,120,0.20);
+            --shadow-gold: 0 8px 28px rgba(201,162,39,0.35);
             --font: 'Cairo', sans-serif;
             --font-display: 'Space Grotesk', sans-serif;
             --radius: 16px;
@@ -40,19 +49,14 @@
             overflow-x: hidden;
         }
 
-        /* =========================================
-           الهيكل الأساسي (Layout)
-           ========================================= */
-        #dashboard {
-            display: flex;
-            min-height: 100vh;
-            position: relative;
-        }
+        #dashboard { display: flex; min-height: 100vh; position: relative; }
 
-        /* الشريط الجانبي (Sidebar) */
+        /* =========================================
+           Sidebar — أزرق ملكي مع تفاصيل ذهبية
+           ========================================= */
         .sidebar {
             width: 280px;
-            background: var(--black);
+            background: linear-gradient(180deg, #013878 0%, #002a5c 100%);
             color: #FFF;
             position: fixed;
             top: 0;
@@ -63,27 +67,41 @@
             flex-direction: column;
             transition: var(--transition);
             border-left: 1px solid rgba(255,255,255,0.05);
+            position: fixed;
+        }
+
+        .sidebar::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(circle at 100% 0%, rgba(201,162,39,0.15) 0%, transparent 40%),
+                radial-gradient(circle at 0% 100%, rgba(201,162,39,0.08) 0%, transparent 50%);
+            pointer-events: none;
         }
 
         .sidebar-header {
             padding: 30px 24px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            z-index: 2;
         }
 
         .sidebar-header h2 {
             font-family: var(--font-display);
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 700;
             letter-spacing: 1px;
             color: #FFF;
         }
 
-        .sidebar-header h2 span { color: var(--primary-red); }
+        .sidebar-header h2 span { color: var(--gold-light); }
         
         .sidebar-header p {
             font-size: 0.8rem;
-            color: rgba(255,255,255,0.4);
+            color: rgba(255,255,255,0.5);
             margin-top: 4px;
+            font-weight: 500;
         }
 
         .sidebar-nav {
@@ -92,6 +110,8 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+            position: relative;
+            z-index: 2;
         }
 
         .sidebar-nav a {
@@ -99,7 +119,7 @@
             align-items: center;
             gap: 12px;
             padding: 14px 20px;
-            color: rgba(255,255,255,0.6);
+            color: rgba(255,255,255,0.65);
             text-decoration: none;
             border-radius: var(--radius-sm);
             font-weight: 600;
@@ -109,17 +129,22 @@
         }
 
         .sidebar-nav a:hover {
-            background: rgba(255,255,255,0.05);
+            background: rgba(255,255,255,0.08);
             color: #FFF;
         }
 
         .sidebar-nav a.active {
-            background: var(--red-gradient);
-            color: #FFF;
-            box-shadow: var(--shadow-lg);
+            background: var(--gold-gradient);
+            color: var(--primary-dark);
+            box-shadow: var(--shadow-gold);
+            font-weight: 800;
         }
 
-        /* المحتوى الرئيسي (Main Content) */
+        .sidebar-nav a.active svg { stroke: var(--primary-dark); }
+
+        /* =========================================
+           Main Content
+           ========================================= */
         .main-content {
             flex: 1;
             margin-right: 280px;
@@ -132,6 +157,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 40px;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
         .top-bar h1 {
@@ -141,8 +168,28 @@
             letter-spacing: -0.5px;
         }
 
+        .top-bar .btn-view {
+            padding: 10px 20px;
+            background: var(--primary);
+            color: #FFF;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.88rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            box-shadow: var(--shadow-md);
+        }
+        .top-bar .btn-view:hover { 
+            background: var(--gold);
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
         /* =========================================
-           البطاقات (Cards)
+           Cards
            ========================================= */
         .card {
             background: var(--surface-card);
@@ -152,11 +199,22 @@
             border: 1px solid var(--border-color);
             margin-bottom: 24px;
             animation: slideUp 0.4s ease forwards;
-            opacity: 0;
-            transform: translateY(20px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            height: 4px;
+            background: var(--gold-gradient);
         }
 
         @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -167,6 +225,8 @@
             margin-bottom: 24px;
             padding-bottom: 16px;
             border-bottom: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .card-header h3 {
@@ -175,12 +235,30 @@
             color: var(--heading-color);
         }
 
-        /* =========================================
-           النماذج (Forms)
-           ========================================= */
-        .form-group {
-            margin-bottom: 24px;
+        .card-header .count-badge {
+            background: rgba(201,162,39,0.15);
+            color: var(--gold-dark);
+            padding: 4px 14px;
+            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 800;
+            border: 1px solid rgba(201,162,39,0.3);
         }
+
+        /* =========================================
+           Forms
+           ========================================= */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0;
+        }
+        @media (min-width: 700px) {
+            .form-grid { grid-template-columns: 1fr 1fr; gap: 0 20px; }
+            .form-group.full { grid-column: 1 / -1; }
+        }
+
+        .form-group { margin-bottom: 24px; }
 
         .form-group label {
             display: block;
@@ -203,25 +281,46 @@
             outline: none;
         }
 
+        .form-control::placeholder { color: #9aabbd; }
+
         .form-control:focus {
-            border-color: var(--primary-red);
+            border-color: var(--primary);
             background: #FFF;
-            box-shadow: 0 0 0 4px rgba(225,6,0,0.1);
+            box-shadow: 0 0 0 4px rgba(1,56,120,0.1);
         }
 
         textarea.form-control {
             resize: vertical;
-            min-height: 180px;
-            line-height: 1.6;
+            min-height: 120px;
+            line-height: 1.7;
         }
 
+        .checkbox-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 16px;
+            background: var(--surface-soft);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .checkbox-row:hover { border-color: var(--gold); }
+        .checkbox-row input { 
+            width: 20px; height: 20px; 
+            accent-color: var(--primary); 
+            cursor: pointer; 
+        }
+        .checkbox-row label { margin: 0; cursor: pointer; font-weight: 700; color: var(--heading-color); }
+
         /* =========================================
-           رفع الصور (Image Upload)
+           Image Upload
            ========================================= */
         .upload-area {
             border: 2px dashed var(--border-color);
             border-radius: var(--radius);
-            padding: 40px 20px;
+            padding: 32px 20px;
             text-align: center;
             cursor: pointer;
             transition: var(--transition);
@@ -230,8 +329,8 @@
         }
 
         .upload-area:hover, .upload-area.dragover {
-            border-color: var(--primary-red);
-            background: rgba(225,6,0,0.02);
+            border-color: var(--gold);
+            background: rgba(201,162,39,0.04);
         }
 
         .upload-area input[type="file"] {
@@ -244,8 +343,8 @@
         }
 
         .upload-icon {
-            font-size: 2.5rem;
-            margin-bottom: 12px;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
             display: block;
         }
 
@@ -256,16 +355,18 @@
         }
 
         .upload-subtext {
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             color: var(--muted-color);
         }
 
-        /* معاينة الصور */
+        /* =========================================
+           Image Preview
+           ========================================= */
         .preview-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 16px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
         }
 
         .preview-item {
@@ -279,41 +380,39 @@
         }
 
         @keyframes popIn {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
 
-        .preview-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .preview-item img { width: 100%; height: 100%; object-fit: cover; }
 
         .preview-remove {
             position: absolute;
             top: 6px;
             right: 6px;
-            background: rgba(10,10,10,0.8);
+            background: rgba(1,56,120,0.85);
             color: #FFF;
             border: none;
             border-radius: 50%;
-            width: 28px;
-            height: 28px;
+            width: 26px;
+            height: 26px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            backdrop-filter: blur(4px);
+            font-size: 1rem;
+            line-height: 1;
             transition: var(--transition);
         }
 
         .preview-remove:hover {
-            background: var(--primary-red);
+            background: var(--gold);
+            color: var(--primary);
             transform: scale(1.1);
         }
 
         /* =========================================
-           الأزرار (Buttons)
+           Buttons
            ========================================= */
         .btn {
             display: inline-flex;
@@ -332,29 +431,43 @@
         }
 
         .btn-primary {
-            background: var(--red-gradient);
+            background: var(--blue-gradient);
             color: #FFF;
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow-md);
             width: 100%;
         }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 16px 40px rgba(225,6,0,0.3);
+        .btn-primary:hover { 
+            background: var(--gold-gradient);
+            color: var(--primary-dark);
+            transform: translateY(-2px); 
+            box-shadow: var(--shadow-gold);
+        }
+        .btn-primary:active { transform: translateY(0); }
+        .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+
+        .btn-secondary {
+            background: var(--surface-soft);
+            color: var(--heading-color);
+            border: 2px solid var(--border-color);
+        }
+        .btn-secondary:hover { 
+            border-color: var(--primary); 
+            color: var(--primary); 
         }
 
-        .btn-primary:active {
-            transform: translateY(0);
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
         }
-
-        .btn-primary:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-            transform: none;
+        @media (max-width: 600px) {
+            .form-actions { flex-direction: column; }
+            .form-actions .btn { width: 100%; }
         }
 
         /* =========================================
-           الجدول (Table)
+           Table
            ========================================= */
         .table-responsive {
             overflow-x: auto;
@@ -362,11 +475,7 @@
             border: 1px solid var(--border-color);
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            white-space: nowrap;
-        }
+        table { width: 100%; border-collapse: collapse; white-space: nowrap; }
 
         th {
             background: var(--surface-soft);
@@ -375,7 +484,7 @@
             font-weight: 800;
             font-size: 0.85rem;
             color: var(--heading-color);
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 2px solid var(--border-color);
         }
 
         td {
@@ -383,11 +492,11 @@
             border-bottom: 1px solid var(--border-color);
             vertical-align: middle;
             font-size: 0.9rem;
+            color: var(--body-color);
         }
 
         tr:last-child td { border-bottom: none; }
-
-        tr:hover td { background: rgba(0,0,0,0.01); }
+        tr:hover td { background: rgba(1,56,120,0.02); }
 
         .table-img {
             width: 60px;
@@ -397,10 +506,22 @@
             border: 1px solid var(--border-color);
         }
 
-        .action-btns {
-            display: flex;
-            gap: 8px;
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.72rem;
+            font-weight: 800;
         }
+        .badge-active { background: #D1FAE5; color: #059669; }
+        .badge-inactive { background: #FEE2E2; color: #DC2626; }
+        .badge-gold { 
+            background: rgba(201,162,39,0.15); 
+            color: var(--gold-dark); 
+            border: 1px solid rgba(201,162,39,0.3);
+        }
+
+        .action-btns { display: flex; gap: 6px; }
 
         .btn-icon {
             width: 36px;
@@ -412,51 +533,58 @@
             cursor: pointer;
             border: none;
             transition: var(--transition);
-            font-size: 1.1rem;
         }
 
-        .btn-edit { background: #E0F2FE; color: #0284C7; }
-        .btn-edit:hover { background: #0284C7; color: #FFF; }
+        .btn-edit { background: rgba(1,56,120,0.1); color: var(--primary); }
+        .btn-edit:hover { background: var(--primary); color: #FFF; }
 
         .btn-delete { background: #FEE2E2; color: #DC2626; }
         .btn-delete:hover { background: #DC2626; color: #FFF; }
 
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--muted-color);
+        }
+        .empty-state .icon-big { font-size: 3rem; margin-bottom: 12px; }
+        .empty-state h4 { 
+            color: var(--heading-color); 
+            margin-bottom: 6px; 
+            font-size: 1.1rem; 
+        }
+
         /* =========================================
-           الإشعارات (Toast)
+           Toast
            ========================================= */
         #toast {
             position: fixed;
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%) translateY(100px);
-            background: var(--black);
+            background: var(--primary);
             color: #FFF;
             padding: 16px 32px;
             border-radius: 50px;
             font-weight: 700;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            box-shadow: 0 20px 40px rgba(1,56,120,0.3);
             opacity: 0;
             transition: var(--transition);
             z-index: 9999;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
-        #toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
-
+        #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
         #toast.error { background: #DC2626; }
-        #toast.success { background: #10B981; }
+        #toast.success { 
+            background: var(--gold-gradient); 
+            color: var(--primary-dark); 
+        }
 
         /* =========================================
-           التجاوب مع الهواتف (Responsive)
+           Mobile
            ========================================= */
         .mobile-header {
             display: none;
-            background: var(--black);
+            background: var(--blue-gradient);
             color: #FFF;
             padding: 16px 20px;
             align-items: center;
@@ -467,7 +595,7 @@
         }
 
         .mobile-header h2 { font-family: var(--font-display); font-size: 1.2rem; }
-        .mobile-header span { color: var(--primary-red); }
+        .mobile-header span { color: var(--gold-light); }
 
         .mobile-toggle {
             background: transparent;
@@ -484,41 +612,17 @@
                 transform: translateX(100%);
                 width: 100%;
                 max-width: 300px;
-                box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+                box-shadow: -10px 0 30px rgba(1,56,120,0.4);
             }
+            .sidebar.open { transform: translateX(0); }
 
-            .sidebar.open {
-                transform: translateX(0);
-            }
+            .main-content { margin-right: 0; padding: 20px 16px; }
+            .top-bar h1 { font-size: 1.4rem; }
+            .card { padding: 20px; }
 
-            .main-content {
-                margin-right: 0;
-                padding: 20px 16px;
-            }
-
-            .top-bar h1 {
-                font-size: 1.4rem;
-            }
-
-            .card {
-                padding: 20px;
-            }
-
-            /* جعل الجدول يعمل كبطاقات على الهاتف */
-            .table-responsive {
-                border: none;
-                overflow: visible;
-            }
-
-            table, thead, tbody, th, td, tr { 
-                display: block; 
-            }
-
-            thead tr { 
-                position: absolute;
-                top: -9999px;
-                left: -9999px;
-            }
+            .table-responsive { border: none; overflow: visible; }
+            table, thead, tbody, th, td, tr { display: block; }
+            thead tr { position: absolute; top: -9999px; left: -9999px; }
 
             tr {
                 background: var(--surface-card);
@@ -529,132 +633,191 @@
                 box-shadow: var(--shadow-sm);
             }
 
-            td { 
+            td {
                 border: none;
                 position: relative;
                 padding: 8px 0;
-                padding-right: 50%;
+                padding-right: 45%;
                 text-align: right;
                 white-space: normal;
+                min-height: 32px;
             }
 
-            td:before { 
+            td:before {
                 position: absolute;
                 top: 8px;
                 right: 0;
-                width: 45%; 
-                padding-left: 10px; 
+                width: 42%;
                 white-space: nowrap;
                 font-weight: 700;
                 color: var(--heading-color);
                 content: attr(data-label);
             }
 
-            /* إخفاء تسمية الصورة لأنها واضحة */
             td:first-child { padding-right: 0; text-align: center; padding-bottom: 16px; }
             td:first-child:before { display: none; }
             
-            .table-img {
-                width: 100%;
-                height: 160px;
-                border-radius: var(--radius-sm);
-            }
+            .table-img { width: 100%; height: 160px; border-radius: var(--radius-sm); }
 
-            .action-btns {
-                justify-content: flex-end;
-                width: 100%;
-            }
+            .action-btns { justify-content: flex-end; width: 100%; }
         }
+
+        /* =========================================
+           Loading spinner
+           ========================================= */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top-color: #FFF;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-left: 8px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <!-- هيدر الهاتف -->
+    <!-- Mobile header -->
     <div class="mobile-header">
-        <h2>NEXT <span>SEASON</span></h2>
+        <h2>UNI <span>PLUS</span></h2>
         <button class="mobile-toggle" onclick="toggleSidebar()">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
         </button>
     </div>
 
     <div id="dashboard">
-        <!-- القائمة الجانبية -->
+        <!-- Sidebar -->
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <h2>NEXT <span>SEASON</span></h2>
-                <p>لوحة التحكم الإدارية</p>
+                <h2>UNI <span>PLUS</span></h2>
+                <p>لوحة التحكم — الباقات والعروض</p>
             </div>
             <div class="sidebar-nav">
-                <a class="active" onclick="switchTab('add-article', this)">
+                <a class="active" onclick="switchTab('add-package', this)">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                    إضافة مقال
+                    إضافة باقة
                 </a>
-                <a onclick="switchTab('manage-articles', this)">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
-                    إدارة المقالات
+                <a onclick="switchTab('manage-packages', this)">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                    إدارة الباقات
                 </a>
-                <a href="index.html" target="_blank" style="margin-top: auto; border: 1px solid rgba(255,255,255,0.1);">
+                <a href="index.html" target="_blank" style="margin-top: auto; border: 1px solid rgba(255,255,255,0.12);">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
                     عرض الموقع
                 </a>
             </div>
         </div>
 
-        <!-- المحتوى الرئيسي -->
+        <!-- Main content -->
         <div class="main-content">
             <div class="top-bar">
-                <h1 id="pageTitle">إضافة مقال جديد</h1>
+                <h1 id="pageTitle">إضافة باقة جديدة</h1>
+                <a href="index.html" target="_blank" class="btn-view">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    معاينة الموقع
+                </a>
             </div>
 
-            <!-- قسم إضافة مقال -->
-            <div id="tab-add-article" class="tab-content active">
+            <!-- ============ TAB: ADD PACKAGE ============ -->
+            <div id="tab-add-package" class="tab-content active">
                 <div class="card">
-                    <form id="articleForm" onsubmit="saveArticle(event)">
-                        <input type="hidden" id="articleId">
-                        
-                        <div class="form-group">
-                            <label>عنوان المقال</label>
-                            <input type="text" id="title" class="form-control" required placeholder="اكتب عنواناً جذاباً...">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>القسم</label>
-                            <select id="category_id" class="form-control" required>
-                                <option value="1">أخبار</option>
-                                <option value="2">مجتمع</option>
-                                <option value="3">ثقافة وفنون</option>
-                                <option value="4">شخصيات ولقاءات</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>صور المقال (يمكن اختيار أكثر من صورة)</label>
-                            <div class="upload-area">
-                                <input type="file" id="fileInput" multiple accept="image/*" onchange="handleFileSelect(event)">
-                                <span class="upload-icon">📸</span>
-                                <div class="upload-text">اضغط هنا أو اسحب الصور</div>
-                                <div class="upload-subtext">يدعم JPG, PNG, WEBP</div>
+                    <form id="packageForm" onsubmit="savePackage(event)">
+                        <input type="hidden" id="packageId">
+
+                        <div class="form-grid">
+                            <!-- العنوان -->
+                            <div class="form-group full">
+                                <label>عنوان الباقة *</label>
+                                <input type="text" id="title" class="form-control" required placeholder="مثال: باقة إسطنبول الصيفية">
                             </div>
-                            <div class="preview-grid" id="imagePreviewContainer"></div>
+
+                            <!-- الوجهة + المدة -->
+                            <div class="form-group">
+                                <label>الوجهة</label>
+                                <input type="text" id="destination" class="form-control" placeholder="مثال: إسطنبول، تركيا">
+                            </div>
+                            <div class="form-group">
+                                <label>المدة</label>
+                                <input type="text" id="duration" class="form-control" placeholder="مثال: 7 ليالٍ / 8 أيام">
+                            </div>
+
+                            <!-- السعر + العملة -->
+                            <div class="form-group">
+                                <label>السعر</label>
+                                <input type="number" id="price" class="form-control" step="0.01" min="0" placeholder="0">
+                            </div>
+                            <div class="form-group">
+                                <label>العملة</label>
+                                <input type="text" id="currency" class="form-control" value="LYD" placeholder="LYD">
+                            </div>
+
+                            <!-- الشارة + الترتيب -->
+                            <div class="form-group">
+                                <label>الشارة (Badge)</label>
+                                <input type="text" id="badge" class="form-control" placeholder="مثال: الأكثر مبيعاً">
+                            </div>
+                            <div class="form-group">
+                                <label>ترتيب العرض</label>
+                                <input type="number" id="sort_order" class="form-control" value="0" min="0">
+                            </div>
+
+                            <!-- الوصف -->
+                            <div class="form-group full">
+                                <label>وصف الباقة</label>
+                                <textarea id="description" class="form-control" placeholder="وصف مختصر وجذاب للباقة..."></textarea>
+                            </div>
+
+                            <!-- المميزات -->
+                            <div class="form-group full">
+                                <label>المميزات (سطر لكل ميزة)</label>
+                                <textarea id="features" class="form-control" style="min-height:110px" placeholder="تذاكر طيران&#10;فندق 4 نجوم&#10;استقبال بالمطار&#10;جولات سياحية"></textarea>
+                            </div>
+
+                            <!-- رفع الصورة -->
+                            <div class="form-group full">
+                                <label>صورة الباقة</label>
+                                <div class="upload-area" id="uploadArea">
+                                    <input type="file" id="fileInput" accept="image/*" onchange="handleFileSelect(event)">
+                                    <span class="upload-icon">📸</span>
+                                    <div class="upload-text">اضغط هنا أو اسحب الصورة</div>
+                                    <div class="upload-subtext">يدعم JPG, PNG, WEBP — أو الصق رابط الصورة أدناه</div>
+                                </div>
+                                <input type="url" id="image_url" class="form-control" placeholder="أو الصق رابط صورة مباشر هنا..." style="margin-top: 12px;">
+                                <div class="preview-grid" id="imagePreviewContainer"></div>
+                            </div>
+
+                            <!-- الحالة -->
+                            <div class="form-group full">
+                                <div class="checkbox-row" onclick="document.getElementById('is_active').click()">
+                                    <input type="checkbox" id="is_active" checked onclick="event.stopPropagation()">
+                                    <label for="is_active">نشط — يظهر على الموقع</label>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label>محتوى المقال</label>
-                            <textarea id="content" class="form-control" required placeholder="اكتب محتوى المقال هنا..."></textarea>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary" id="submitBtn">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                                حفظ الباقة
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+                                إفراغ
+                            </button>
                         </div>
-                        
-                        <button type="submit" class="btn btn-primary" id="submitBtn">
-                            نشر المقال
-                        </button>
                     </form>
                 </div>
             </div>
 
-            <!-- قسم إدارة المقالات -->
-            <div id="tab-manage-articles" class="tab-content" style="display:none;">
+            <!-- ============ TAB: MANAGE PACKAGES ============ -->
+            <div id="tab-manage-packages" class="tab-content" style="display:none;">
                 <div class="card">
                     <div class="card-header">
-                        <h3>جميع المقالات</h3>
+                        <h3>جميع الباقات</h3>
+                        <span class="count-badge" id="countBadge">0</span>
                     </div>
                     <div class="table-responsive">
                         <table>
@@ -662,13 +825,14 @@
                                 <tr>
                                     <th>الصورة</th>
                                     <th>العنوان</th>
-                                    <th>القسم</th>
-                                    <th>التاريخ</th>
+                                    <th>الوجهة</th>
+                                    <th>السعر</th>
+                                    <th>الحالة</th>
                                     <th>الإجراءات</th>
                                 </tr>
                             </thead>
-                            <tbody id="articlesTableBody">
-                                <!-- سيتم تحميل المقالات هنا -->
+                            <tbody id="packagesTableBody">
+                                <tr><td colspan="6" style="text-align:center; padding: 40px;">جاري التحميل...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -681,21 +845,26 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        const SUPABASE_URL = 'https://mxwftmpidpsbowtuxvyl.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_x83pQypR_ZHiN4hMXx8ySQ_Te1pZF87';
+        // ============================================
+        // Supabase Configuration
+        // ============================================
+        const SUPABASE_URL = 'https://mmqbwmnvcpblateekoed.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_2kGdSLEcZLKBFjjolUo3Lg_4D-gR7fY';
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        let selectedFiles = [];
-        let existingImageUrls = [];
+        const STORAGE_BUCKET = 'packages';
+
+        let selectedFile = null;
+        let existingImageUrl = '';
 
         document.addEventListener('DOMContentLoaded', () => {
-            loadArticles();
+            loadPackages();
             initDragAndDrop();
         });
 
-        // ==========================================
-        // التنقل بين التبويبات والقائمة الجانبية
-        // ==========================================
+        // ============================================
+        // Tab switching
+        // ============================================
         function switchTab(tabId, element) {
             document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
             document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
@@ -703,15 +872,14 @@
             document.getElementById('tab-' + tabId).style.display = 'block';
             if(element) element.classList.add('active');
             
-            if (tabId === 'add-article') {
-                document.getElementById('pageTitle').innerText = 'إضافة مقال جديد';
+            if (tabId === 'add-package') {
+                document.getElementById('pageTitle').innerText = 'إضافة باقة جديدة';
                 resetForm();
-            } else if (tabId === 'manage-articles') {
-                document.getElementById('pageTitle').innerText = 'إدارة المقالات';
-                loadArticles();
+            } else if (tabId === 'manage-packages') {
+                document.getElementById('pageTitle').innerText = 'إدارة الباقات';
+                loadPackages();
             }
 
-            // إغلاق القائمة الجانبية في الهاتف بعد الاختيار
             if (window.innerWidth <= 900) {
                 document.getElementById('sidebar').classList.remove('open');
             }
@@ -721,165 +889,190 @@
             document.getElementById('sidebar').classList.toggle('open');
         }
 
-        // ==========================================
-        // رفع الصور والمعاينة
-        // ==========================================
+        // ============================================
+        // Image Upload
+        // ============================================
         function handleFileSelect(event) {
-            const files = Array.from(event.target.files);
-            files.forEach(file => {
-                if(file.type.startsWith('image/')) {
-                    selectedFiles.push(file);
-                    renderPreview(file);
-                }
-            });
+            const file = event.target.files[0];
+            if (!file || !file.type.startsWith('image/')) return;
+            selectedFile = file;
+            renderPreview(URL.createObjectURL(file));
             event.target.value = '';
         }
 
         function initDragAndDrop() {
-            const uploadArea = document.querySelector('.upload-area');
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                uploadArea.addEventListener(eventName, preventDefaults, false);
-            });
-            function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
+            const uploadArea = document.getElementById('uploadArea');
+            if (!uploadArea) return;
 
-            ['dragenter', 'dragover'].forEach(eventName => {
-                uploadArea.addEventListener(eventName, () => uploadArea.classList.add('dragover'), false);
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(evt => {
+                uploadArea.addEventListener(evt, e => { e.preventDefault(); e.stopPropagation(); });
             });
-            ['dragleave', 'drop'].forEach(eventName => {
-                uploadArea.addEventListener(eventName, () => uploadArea.classList.remove('dragover'), false);
+            ['dragenter', 'dragover'].forEach(evt => {
+                uploadArea.addEventListener(evt, () => uploadArea.classList.add('dragover'));
             });
-
+            ['dragleave', 'drop'].forEach(evt => {
+                uploadArea.addEventListener(evt, () => uploadArea.classList.remove('dragover'));
+            });
             uploadArea.addEventListener('drop', (e) => {
-                const dt = e.dataTransfer;
-                const files = Array.from(dt.files);
-                files.forEach(file => {
-                    if(file.type.startsWith('image/')) {
-                        selectedFiles.push(file);
-                        renderPreview(file);
-                    }
-                });
-            }, false);
+                const file = e.dataTransfer.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    selectedFile = file;
+                    renderPreview(URL.createObjectURL(file));
+                }
+            });
         }
 
-        function renderPreview(file) {
+        function renderPreview(src) {
             const container = document.getElementById('imagePreviewContainer');
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const div = document.createElement('div');
-                div.className = 'preview-item';
-                div.innerHTML = `
-                    <img src="${e.target.result}" alt="preview">
-                    <button type="button" class="preview-remove" onclick="removeSelectedFile(this, '${file.name}')">×</button>
-                `;
-                container.appendChild(div);
-            };
-            reader.readAsDataURL(file);
+            container.innerHTML = `
+                <div class="preview-item">
+                    <img src="${src}" alt="preview">
+                    <button type="button" class="preview-remove" onclick="removeImage()">×</button>
+                </div>
+            `;
         }
 
-        function removeSelectedFile(btn, fileName) {
-            btn.parentElement.remove();
-            selectedFiles = selectedFiles.filter(f => f.name !== fileName);
+        function removeImage() {
+            selectedFile = null;
+            existingImageUrl = '';
+            document.getElementById('imagePreviewContainer').innerHTML = '';
+            document.getElementById('image_url').value = '';
         }
 
-        function removeExistingImage(btn, url) {
-            btn.parentElement.remove();
-            existingImageUrls = existingImageUrls.filter(u => u !== url);
-        }
-
-        // ==========================================
-        // عمليات قاعدة البيانات (CRUD)
-        // ==========================================
-        async function saveArticle(e) {
+        // ============================================
+        // CRUD
+        // ============================================
+        async function savePackage(e) {
             e.preventDefault();
-            const id = document.getElementById('articleId').value;
+            const id = document.getElementById('packageId').value;
             const btn = document.getElementById('submitBtn');
             const originalText = btn.innerHTML;
-            
-            btn.innerHTML = 'جاري الرفع والحفظ...'; 
+
+            btn.innerHTML = 'جاري الحفظ... <span class="loading-spinner"></span>';
             btn.disabled = true;
 
             try {
-                let uploadedUrls = [];
-                for (const file of selectedFiles) {
-                    const fileExt = file.name.split('.').pop();
-                    const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
-                    
-                    const { data, error } = await supabaseClient.storage.from('images').upload(fileName, file);
-                    if (error) throw new Error('فشل رفع الصورة: ' + error.message);
+                let imageUrl = document.getElementById('image_url').value.trim() || existingImageUrl;
 
-                    const { data: urlData } = supabaseClient.storage.from('images').getPublicUrl(fileName);
-                    uploadedUrls.push(urlData.publicUrl);
+                if (selectedFile) {
+                    const fileExt = selectedFile.name.split('.').pop();
+                    const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
+
+                    const { error: uploadError } = await supabaseClient.storage
+                        .from(STORAGE_BUCKET)
+                        .upload(fileName, selectedFile, { upsert: false });
+
+                    if (uploadError) {
+                        if (!imageUrl) throw new Error('فشل رفع الصورة: ' + uploadError.message + ' — يمكنك لصق رابط صورة مباشر بدلاً من ذلك');
+                    } else {
+                        const { data: urlData } = supabaseClient.storage
+                            .from(STORAGE_BUCKET)
+                            .getPublicUrl(fileName);
+                        imageUrl = urlData.publicUrl;
+                    }
                 }
 
-                const finalImages = [...existingImageUrls, ...uploadedUrls];
+                const featuresText = document.getElementById('features').value.trim();
+                const features = featuresText ? featuresText.split('\n').map(l => l.trim()).filter(Boolean) : [];
 
-                const articleData = {
-                    title: document.getElementById('title').value,
-                    category_id: parseInt(document.getElementById('category_id').value),
-                    content: document.getElementById('content').value,
-                    images: finalImages,
-                    image_url: finalImages.length > 0 ? finalImages[0] : null 
+                const packageData = {
+                    title: document.getElementById('title').value.trim(),
+                    description: document.getElementById('description').value.trim() || null,
+                    price: document.getElementById('price').value ? Number(document.getElementById('price').value) : null,
+                    currency: document.getElementById('currency').value.trim() || 'LYD',
+                    image_url: imageUrl || null,
+                    destination: document.getElementById('destination').value.trim() || null,
+                    duration: document.getElementById('duration').value.trim() || null,
+                    features: features,
+                    badge: document.getElementById('badge').value.trim() || null,
+                    is_active: document.getElementById('is_active').checked,
+                    sort_order: Number(document.getElementById('sort_order').value) || 0
                 };
+
+                if (!packageData.title) throw new Error('العنوان مطلوب');
 
                 let error;
                 if (id) {
-                    const res = await supabaseClient.from('articles').update(articleData).eq('id', id);
+                    const res = await supabaseClient.from('packages').update(packageData).eq('id', id);
                     error = res.error;
                 } else {
-                    const res = await supabaseClient.from('articles').insert([articleData]);
+                    const res = await supabaseClient.from('packages').insert([packageData]);
                     error = res.error;
                 }
 
                 if (error) throw error;
 
-                showToast(id ? 'تم تعديل المقال بنجاح' : 'تم نشر المقال بنجاح', 'success');
+                showToast(id ? '✅ تم تحديث الباقة بنجاح' : '✅ تمت إضافة الباقة بنجاح', 'success');
                 resetForm();
-                document.querySelectorAll('.sidebar-nav a')[1].click(); 
+                document.querySelectorAll('.sidebar-nav a')[1].click();
 
             } catch (err) {
-                showToast(err.message, 'error');
+                console.error(err);
+                showToast('❌ ' + err.message, 'error');
             } finally {
-                btn.innerHTML = originalText; 
+                btn.innerHTML = originalText;
                 btn.disabled = false;
             }
         }
 
-        async function loadArticles() {
-            const tbody = document.getElementById('articlesTableBody');
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 40px;">جاري التحميل...</td></tr>';
-            
-            const { data, error } = await supabaseClient.from('articles').select('*').order('created_at', { ascending: false });
-            
+        async function loadPackages() {
+            const tbody = document.getElementById('packagesTableBody');
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 40px;">جاري التحميل...</td></tr>';
+
+            const { data, error } = await supabaseClient
+                .from('packages')
+                .select('*')
+                .order('sort_order', { ascending: true })
+                .order('created_at', { ascending: false });
+
             if (error) {
-                tbody.innerHTML = `<tr><td colspan="5" style="color:red; text-align:center;">خطأ: ${error.message}</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" style="color:red; text-align:center; padding:40px;">خطأ: ${error.message}</td></tr>`;
                 return;
             }
+
+            document.getElementById('countBadge').innerText = data.length;
 
             if (data.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 40px;">لا توجد مقالات بعد.</td></tr>';
+                tbody.innerHTML = `
+                    <tr><td colspan="6">
+                        <div class="empty-state">
+                            <div class="icon-big">📦</div>
+                            <h4>لا توجد باقات بعد</h4>
+                            <p>أضف أول باقة من نموذج "إضافة باقة"</p>
+                        </div>
+                    </td></tr>
+                `;
                 return;
             }
 
-            const categories = { 1: 'أخبار', 2: 'مجتمع', 3: 'ثقافة وفنون', 4: 'شخصيات ولقاءات' };
-            const defaultImg = 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=100';
+            const defaultImg = 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=100';
 
-            tbody.innerHTML = data.map(article => {
-                let displayImg = defaultImg;
-                if (article.images && article.images.length > 0) displayImg = article.images[0];
-                else if (article.image_url) displayImg = article.image_url;
+            tbody.innerHTML = data.map(pkg => {
+                const img = pkg.image_url || defaultImg;
+                const price = pkg.price ? `${Number(pkg.price).toLocaleString('en-US')} ${pkg.currency || 'LYD'}` : '—';
 
                 return `
                 <tr>
-                    <td data-label="الصورة"><img src="${displayImg}" class="table-img" alt="img" onerror="this.src='${defaultImg}'"></td>
-                    <td data-label="العنوان" style="font-weight:700; color:var(--heading-color);">${article.title}</td>
-                    <td data-label="القسم">${categories[article.category_id] || 'غير محدد'}</td>
-                    <td data-label="التاريخ">${new Date(article.created_at).toLocaleDateString('ar-LY')}</td>
+                    <td data-label="الصورة">
+                        <img src="${escapeHtml(img)}" class="table-img" alt="" onerror="this.src='${defaultImg}'">
+                    </td>
+                    <td data-label="العنوان" style="font-weight:700; color:var(--heading-color); white-space:normal; max-width:220px;">
+                        ${escapeHtml(pkg.title)}
+                        ${pkg.badge ? `<br><span class="badge badge-gold" style="margin-top:4px;">${escapeHtml(pkg.badge)}</span>` : ''}
+                    </td>
+                    <td data-label="الوجهة">${escapeHtml(pkg.destination || '—')}</td>
+                    <td data-label="السعر" style="font-weight:700;">${price}</td>
+                    <td data-label="الحالة">
+                        ${pkg.is_active
+                            ? '<span class="badge badge-active">✓ نشط</span>'
+                            : '<span class="badge badge-inactive">✗ غير نشط</span>'}
+                    </td>
                     <td data-label="الإجراءات">
                         <div class="action-btns">
-                            <button class="btn-icon btn-edit" onclick="editArticle(${article.id})" title="تعديل">
+                            <button class="btn-icon btn-edit" onclick="editPackage(${pkg.id})" title="تعديل">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                             </button>
-                            <button class="btn-icon btn-delete" onclick="deleteArticle(${article.id})" title="حذف">
+                            <button class="btn-icon btn-delete" onclick="deletePackage(${pkg.id})" title="حذف">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
                             </button>
                         </div>
@@ -888,62 +1081,95 @@
             `}).join('');
         }
 
-        async function editArticle(id) {
-            const { data, error } = await supabaseClient.from('articles').select('*').eq('id', id).single();
-            if (error) return showToast('خطأ في جلب المقال', 'error');
+        async function editPackage(id) {
+            const { data, error } = await supabaseClient.from('packages').select('*').eq('id', id).single();
+            if (error) return showToast('خطأ في جلب الباقة', 'error');
 
             document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
-            document.getElementById('tab-add-article').style.display = 'block';
-            document.getElementById('pageTitle').innerText = 'تعديل المقال';
+            document.getElementById('tab-add-package').style.display = 'block';
+            document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
+            document.querySelectorAll('.sidebar-nav a')[0].classList.add('active');
+            document.getElementById('pageTitle').innerText = 'تعديل الباقة';
 
-            document.getElementById('articleId').value = data.id;
-            document.getElementById('title').value = data.title;
-            document.getElementById('category_id').value = data.category_id;
-            document.getElementById('content').value = data.content;
-            document.getElementById('submitBtn').innerHTML = 'حفظ التعديلات';
+            document.getElementById('packageId').value = data.id;
+            document.getElementById('title').value = data.title || '';
+            document.getElementById('description').value = data.description || '';
+            document.getElementById('price').value = data.price || '';
+            document.getElementById('currency').value = data.currency || 'LYD';
+            document.getElementById('destination').value = data.destination || '';
+            document.getElementById('duration').value = data.duration || '';
+            document.getElementById('badge').value = data.badge || '';
+            document.getElementById('features').value = Array.isArray(data.features) ? data.features.join('\n') : '';
+            document.getElementById('is_active').checked = data.is_active !== false;
+            document.getElementById('sort_order').value = data.sort_order || 0;
+            document.getElementById('image_url').value = data.image_url || '';
+            document.getElementById('submitBtn').innerHTML = `
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                حفظ التعديلات
+            `;
 
-            selectedFiles = [];
-            existingImageUrls = data.images || (data.image_url ? [data.image_url] : []);
-            
+            selectedFile = null;
+            existingImageUrl = data.image_url || '';
+
             const container = document.getElementById('imagePreviewContainer');
             container.innerHTML = '';
-            existingImageUrls.forEach(url => {
-                const div = document.createElement('div');
-                div.className = 'preview-item';
-                div.innerHTML = `
-                    <img src="${url}" alt="preview">
-                    <button type="button" class="preview-remove" onclick="removeExistingImage(this, '${url}')">×</button>
+            if (data.image_url) {
+                container.innerHTML = `
+                    <div class="preview-item">
+                        <img src="${escapeHtml(data.image_url)}" alt="preview" onerror="this.parentElement.remove()">
+                        <button type="button" class="preview-remove" onclick="removeImage()">×</button>
+                    </div>
                 `;
-                container.appendChild(div);
-            });
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        async function deleteArticle(id) {
-            if (!confirm('هل أنت متأكد من حذف هذا المقال نهائياً؟')) return;
+        async function deletePackage(id) {
+            if (!confirm('هل أنت متأكد من حذف هذه الباقة نهائياً؟')) return;
             
-            const { error } = await supabaseClient.from('articles').delete().eq('id', id);
+            const { error } = await supabaseClient.from('packages').delete().eq('id', id);
             if (error) {
                 showToast('خطأ: ' + error.message, 'error');
             } else {
-                showToast('تم حذف المقال', 'success');
-                loadArticles();
+                showToast('✅ تم حذف الباقة', 'success');
+                loadPackages();
             }
         }
 
         function resetForm() {
-            document.getElementById('articleForm').reset();
-            document.getElementById('articleId').value = '';
+            document.getElementById('packageForm').reset();
+            document.getElementById('packageId').value = '';
             document.getElementById('imagePreviewContainer').innerHTML = '';
-            document.getElementById('submitBtn').innerHTML = 'نشر المقال';
-            selectedFiles = [];
-            existingImageUrls = [];
+            document.getElementById('currency').value = 'LYD';
+            document.getElementById('sort_order').value = '0';
+            document.getElementById('is_active').checked = true;
+            document.getElementById('submitBtn').innerHTML = `
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                حفظ الباقة
+            `;
+            selectedFile = null;
+            existingImageUrl = '';
         }
 
+        // ============================================
+        // Utilities
+        // ============================================
         function showToast(msg, type = 'success') {
             const toast = document.getElementById('toast');
             toast.innerText = msg;
             toast.className = 'show ' + type;
-            setTimeout(() => toast.classList.remove('show'), 3000);
+            setTimeout(() => toast.classList.remove('show'), 3500);
+        }
+
+        function escapeHtml(s) {
+            if (s == null) return '';
+            return String(s)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
         }
     </script>
 </body>
